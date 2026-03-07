@@ -127,9 +127,10 @@
 
 <div class="card">
   <h2>Contract Address</h2>
-  <p style="word-break: break-all;">
+  <p id="contractAddress" style="word-break: break-all;">
     BGQ93dY5dKdbxuajhbDbYhXQcJ6Ax6g3zZ46ekePpump
   </p>
+  <button class="btn" onclick="copyContract()">Copy Contract</button>
 </div>
 
 <div class="card">
@@ -144,5 +145,14 @@
       © 2026 SARDOG. All rights reserved.
     </footer>
   </div>
+
+  <script>
+  function copyContract() {
+    const contract = "BGQ93dY5dKdbxuajhbDbYhXQcJ6Ax6g3zZ46ekePpump";
+    navigator.clipboard.writeText(contract).then(() => {
+      alert("Contract copied successfully");
+    });
+  }
+</script>
 </body>
 </html>
