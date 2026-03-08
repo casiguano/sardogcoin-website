@@ -56,7 +56,7 @@
       background-size: 46px 46px, 46px 46px, 120px 120px;
       background-position: 0 0, 0 0, 20px 20px;
       mask-image: radial-gradient(circle at center, black 35%, transparent 100%);
-      opacity: 0.25;
+      opacity: 0.18;
     }
 
     body::after {
@@ -80,13 +80,13 @@
       height: 100%;
       z-index: 0;
       pointer-events: none;
-      opacity: 0.55;
+      opacity: 0.58;
     }
 
     .container {
       position: relative;
       z-index: 1;
-      width: min(1180px, calc(100% - 28px));
+      width: min(1240px, calc(100% - 28px));
       margin: 0 auto;
       padding: 38px 0 90px;
     }
@@ -99,10 +99,10 @@
     .hero::before {
       content: "";
       position: absolute;
-      width: 460px;
-      height: 460px;
+      width: 500px;
+      height: 500px;
       left: 50%;
-      top: 30px;
+      top: 20px;
       transform: translateX(-50%);
       background: radial-gradient(circle, rgba(0,255,136,0.18), transparent 65%);
       filter: blur(22px);
@@ -211,6 +211,7 @@
       border: 1px solid rgba(255,255,255,0.08);
       backdrop-filter: blur(8px);
       box-shadow: 0 12px 28px rgba(0,0,0,0.22);
+      max-width: 100%;
     }
 
     .hero-contract-label {
@@ -455,7 +456,7 @@
 
     .market-grid {
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
+      grid-template-columns: 1.3fr 0.7fr;
       gap: 22px;
       align-items: stretch;
       margin-top: 18px;
@@ -501,6 +502,36 @@
       opacity: 0.75;
     }
 
+    .library-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin: 12px 0 22px;
+    }
+
+    .library-meta {
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .library-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .library-badge {
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
     .meme-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -514,6 +545,9 @@
       border-radius: 20px;
       padding: 12px;
       box-shadow: 0 12px 24px rgba(0,0,0,0.16);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .meme-item img {
@@ -523,10 +557,39 @@
       border-radius: 14px;
       display: block;
       margin-bottom: 12px;
+      background: rgba(255,255,255,0.04);
     }
 
-    .meme-item .btn {
+    .meme-title {
+      font-weight: 800;
+      color: white;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    .meme-cat {
+      color: var(--green);
+      font-size: 0.86rem;
+      margin-bottom: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .meme-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .meme-actions .btn {
       width: 100%;
+    }
+
+    .library-empty {
+      display: none;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 1rem;
     }
 
     footer {
@@ -550,6 +613,12 @@
     @keyframes floatLogo {
       0%, 100% { transform: translateY(0px); }
       50% { transform: translateY(-6px); }
+    }
+
+    @media (max-width: 1100px) {
+      .meme-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
     }
 
     @media (max-width: 960px) {
@@ -585,7 +654,7 @@
       }
 
       .container {
-        width: min(100% - 18px, 1180px);
+        width: min(100% - 18px, 1240px);
         padding-top: 20px;
       }
 
@@ -743,43 +812,21 @@
         </p>
       </div>
 
-      <div class="card">
-        <h2>Roadmap</h2>
-        <ul>
-          <li>Phase 1: Launch SARDOG and build the pack.</li>
-          <li>Phase 2: Grow the community across X and Telegram.</li>
-          <li>Phase 3: Push memes, raids, and viral content.</li>
-          <li>Phase 4: Expand visibility and strengthen the brand.</li>
-          <li>Phase 5: Take SARDOG to the next level.</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <h2>Tokenomics</h2>
-        <ul>
-          <li>Name: SARDOG</li>
-          <li>Ticker: SARD</li>
-          <li>Network: Solana</li>
-          <li>Contract: BGQ93dY5dKdbxuajhbDbYhXQcJ6Ax6g3zZ46ekePpump</li>
-        </ul>
-      </div>
-
       <div class="card full">
         <h2>Live Market Pulse</h2>
         <p style="max-width: 900px; margin-bottom: 22px;">
-          Track Solana market action and follow SARDOG live with market stats and DexScreener access.
+          Track SARDOG directly and monitor live market behavior from the pair itself.
         </p>
 
         <div class="market-grid">
           <div class="mini-card" style="padding:12px; border-radius:22px;">
-            <h3 style="margin:10px 0 14px;">SOL Chart</h3>
+            <h3 style="margin:10px 0 14px;">SARDOG Chart</h3>
             <div style="border-radius:18px; overflow:hidden; min-height:420px;">
               <iframe
-                src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_sol&symbol=BINANCE%3ASOLUSDT&interval=240&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=050505&studies=[]&theme=dark&style=1&timezone=Etc%2FUTC&withdateranges=1&hideideas=1"
+                src="https://dexscreener.com/solana/dhk5xm4ud3oycttbvhnfe6abzeoxcyycmnt9exct6cft?embed=1&theme=dark&trades=0&info=0"
                 width="100%"
                 height="420"
                 frameborder="0"
-                allowtransparency="true"
                 scrolling="no"
                 style="background:#050505;">
               </iframe>
@@ -828,6 +875,27 @@
         </div>
       </div>
 
+      <div class="card">
+        <h2>Roadmap</h2>
+        <ul>
+          <li>Phase 1: Launch SARDOG and build the pack.</li>
+          <li>Phase 2: Grow the community across X and Telegram.</li>
+          <li>Phase 3: Push memes, raids, and viral content.</li>
+          <li>Phase 4: Expand visibility and strengthen the brand.</li>
+          <li>Phase 5: Take SARDOG to the next level.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Tokenomics</h2>
+        <ul>
+          <li>Name: SARDOG</li>
+          <li>Ticker: SARD</li>
+          <li>Network: Solana</li>
+          <li>Contract: BGQ93dY5dKdbxuajhbDbYhXQcJ6Ax6g3zZ46ekePpump</li>
+        </ul>
+      </div>
+
       <div class="card full">
         <h2>Why SARDOG</h2>
         <p>
@@ -860,29 +928,29 @@
       </div>
 
       <div class="card full">
-        <h2>Meme Vault</h2>
-        <p style="max-width: 900px; margin-bottom: 22px;">
-          Download official SARDOG memes, share them, raid with them, and keep the pack moving.
+        <h2>SARDOG Meme Library</h2>
+        <p style="max-width: 920px; margin-bottom: 12px;">
+          Official SARDOG memes, ready to download, post, reuse, and deploy across the internet.
+          This library is built to scale from a few memes now to a full pack arsenal over time.
         </p>
 
-        <div class="meme-grid">
-          <div class="meme-item">
-            <img src="meme1.jpg" alt="SARDOG Meme 1">
-            <a href="meme1.jpg" class="btn" download>Download Meme 1</a>
+        <div class="library-controls">
+          <div class="library-meta">
+            Capacity ready for 100+ memes.
           </div>
-          <div class="meme-item">
-            <img src="meme2.jpg" alt="SARDOG Meme 2">
-            <a href="meme2.jpg" class="btn" download>Download Meme 2</a>
-          </div>
-          <div class="meme-item">
-            <img src="meme3.jpg" alt="SARDOG Meme 3">
-            <a href="meme3.jpg" class="btn" download>Download Meme 3</a>
-          </div>
-          <div class="meme-item">
-            <img src="meme4.jpg" alt="SARDOG Meme 4">
-            <a href="meme4.jpg" class="btn" download>Download Meme 4</a>
+
+          <div class="library-badges">
+            <span class="library-badge">Bullish</span>
+            <span class="library-badge">Sarcastic</span>
+            <span class="library-badge">Raid</span>
+            <span class="library-badge">Reaction</span>
+            <span class="library-badge">Market Pain</span>
+            <span class="library-badge">Victory</span>
           </div>
         </div>
+
+        <div class="meme-grid" id="memeGrid"></div>
+        <div class="library-empty" id="libraryEmpty">No memes available yet.</div>
       </div>
 
       <div class="card full">
@@ -903,12 +971,22 @@
   </div>
 
   <script>
+    const CONTRACT = "BGQ93dY5dKdbxuajhbDbYhXQcJ6Ax6g3zZ46ekePpump";
+    const DEXSCREENER_PAIR = "dhk5xm4ud3oycttbvhnfe6abzeoxcyycmnt9exct6cft";
+    const DEXSCREENER_URL = "https://dexscreener.com/solana/" + DEXSCREENER_PAIR;
+
+    const memeLibrary = [
+      { file: "meme1.jpg", title: "SARDOG Meme 1", category: "Identity" },
+      { file: "meme2.jpg", title: "SARDOG Meme 2", category: "Sarcastic" },
+      { file: "meme3.jpg", title: "SARDOG Meme 3", category: "Reaction" },
+      { file: "meme4.jpg", title: "SARDOG Meme 4", category: "Market Pain" }
+    ];
+
     function copyContract() {
-      const contract = "BGQ93dY5dKdbxuajhbDbYhXQcJ6Ax6g3zZ46ekePpump";
       const status = document.getElementById("copyStatus");
       const btn = document.getElementById("copyBtn");
 
-      navigator.clipboard.writeText(contract).then(() => {
+      navigator.clipboard.writeText(CONTRACT).then(() => {
         status.classList.add("show");
         btn.textContent = "Copied ✓";
         setTimeout(() => {
@@ -919,11 +997,10 @@
     }
 
     function copyHeroContract() {
-      const contract = "BGQ93dY5dKdbxuajhbDbYhXQcJ6Ax6g3zZ46ekePpump";
       const status = document.getElementById("heroCopyStatus");
       const btn = document.getElementById("heroCopyBtn");
 
-      navigator.clipboard.writeText(contract).then(() => {
+      navigator.clipboard.writeText(CONTRACT).then(() => {
         status.classList.add("show");
         btn.textContent = "Copied ✓";
         setTimeout(() => {
@@ -949,7 +1026,7 @@
     }
 
     async function loadSardogStats() {
-      const endpoint = "https://api.dexscreener.com/latest/dex/pairs/solana/dhk5xm4ud3oycttbvhnfe6abzeoxcyycmnt9exct6cft";
+      const endpoint = "https://api.dexscreener.com/latest/dex/pairs/solana/" + DEXSCREENER_PAIR;
 
       try {
         const response = await fetch(endpoint);
@@ -971,6 +1048,7 @@
         [priceUsd, priceChange24h, liquidityUsd, marketCap].forEach(el => el.classList.remove("loading"));
 
         const pct = Number(pair.priceChange?.h24);
+        priceChange24h.classList.remove("positive", "negative");
         if (!isNaN(pct)) {
           priceChange24h.classList.add(pct >= 0 ? "positive" : "negative");
         }
@@ -980,6 +1058,38 @@
         document.getElementById("liquidityUsd").textContent = "Unavailable";
         document.getElementById("marketCap").textContent = "Unavailable";
       }
+    }
+
+    function renderMemeLibrary() {
+      const grid = document.getElementById("memeGrid");
+      const empty = document.getElementById("libraryEmpty");
+
+      grid.innerHTML = "";
+
+      if (!memeLibrary.length) {
+        empty.style.display = "block";
+        return;
+      }
+
+      empty.style.display = "none";
+
+      memeLibrary.forEach((meme) => {
+        const item = document.createElement("div");
+        item.className = "meme-item";
+
+        item.innerHTML = `
+          <div>
+            <img src="${meme.file}" alt="${meme.title}">
+            <div class="meme-title">${meme.title}</div>
+            <div class="meme-cat">${meme.category}</div>
+          </div>
+          <div class="meme-actions">
+            <a href="${meme.file}" class="btn" download>Download</a>
+          </div>
+        `;
+
+        grid.appendChild(item);
+      });
     }
 
     const canvas = document.getElementById("networkCanvas");
@@ -1108,6 +1218,7 @@
     resizeCanvas();
     createNodes();
     animateNetwork();
+    renderMemeLibrary();
     loadSardogStats();
     setInterval(loadSardogStats, 60000);
   </script>
