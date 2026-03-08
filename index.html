@@ -56,7 +56,7 @@
       background-size: 46px 46px, 46px 46px, 120px 120px;
       background-position: 0 0, 0 0, 20px 20px;
       mask-image: radial-gradient(circle at center, black 35%, transparent 100%);
-      opacity: 0.32;
+      opacity: 0.25;
     }
 
     body::after {
@@ -71,6 +71,16 @@
         linear-gradient(90deg, transparent 0%, rgba(0,255,136,0.015) 50%, transparent 100%);
       filter: blur(14px);
       opacity: 0.95;
+    }
+
+    #networkCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.55;
     }
 
     .container {
@@ -181,11 +191,78 @@
     }
 
     .hero-slogan {
-      margin: 16px auto 26px;
+      margin: 16px auto 20px;
       color: var(--green);
       font-weight: 800;
       font-size: clamp(1rem, 2.3vw, 1.28rem);
       animation: fadeUp 1.2s ease both;
+    }
+
+    .hero-contract {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 10px auto 0;
+      padding: 12px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.22);
+    }
+
+    .hero-contract-label {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .hero-contract-value {
+      color: white;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.2px;
+    }
+
+    .hero-copy-btn {
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,255,136,0.12);
+      color: var(--green);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.22s ease;
+    }
+
+    .hero-copy-btn:hover {
+      background: rgba(0,255,136,0.18);
+      transform: translateY(-1px);
+    }
+
+    .hero-copy-status {
+      min-width: 70px;
+      color: var(--green);
+      font-size: 0.92rem;
+      font-weight: 700;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: all 0.22s ease;
+    }
+
+    .hero-copy-status.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hero-sarcasm-tag {
+      display: inline-block;
+      margin-top: 14px;
+      color: #9fffd0;
+      font-size: 0.95rem;
+      opacity: 0.9;
+      letter-spacing: 0.3px;
     }
 
     .hero-actions {
@@ -193,7 +270,7 @@
       justify-content: center;
       flex-wrap: wrap;
       gap: 14px;
-      margin: 18px 0 24px;
+      margin: 22px 0 24px;
       animation: fadeUp 1.3s ease both;
     }
 
@@ -301,7 +378,7 @@
     }
 
     .card p, .card li {
-      color: #e6e9e7;
+      color: #eef3ef;
       font-size: 1.08rem;
       line-height: 1.75;
       margin: 0 auto;
@@ -424,6 +501,34 @@
       opacity: 0.75;
     }
 
+    .meme-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .meme-item {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 12px;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.16);
+    }
+
+    .meme-item img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 14px;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .meme-item .btn {
+      width: 100%;
+    }
+
     footer {
       margin-top: 70px;
       padding: 26px 18px 12px;
@@ -443,12 +548,8 @@
     }
 
     @keyframes floatLogo {
-      0%, 100% {
-        transform: translateY(0px);
-      }
-      50% {
-        transform: translateY(-6px);
-      }
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
     }
 
     @media (max-width: 960px) {
@@ -456,7 +557,8 @@
         grid-template-columns: 1fr;
       }
 
-      .community-grid {
+      .community-grid,
+      .meme-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
@@ -478,6 +580,10 @@
     }
 
     @media (max-width: 640px) {
+      #networkCanvas {
+        opacity: 0.42;
+      }
+
       .container {
         width: min(100% - 18px, 1180px);
         padding-top: 20px;
@@ -498,7 +604,8 @@
       }
 
       .community-grid,
-      .market-panel {
+      .market-panel,
+      .meme-grid {
         grid-template-columns: 1fr;
       }
 
@@ -516,13 +623,28 @@
         align-items: center;
       }
 
+      .hero-contract {
+        width: 100%;
+        padding: 12px;
+      }
+
+      .hero-contract-value {
+        word-break: break-all;
+      }
+
       iframe {
         min-height: 320px !important;
+      }
+
+      .meme-item img {
+        height: 240px;
       }
     }
   </style>
 </head>
 <body>
+  <canvas id="networkCanvas"></canvas>
+
   <div class="container">
     <section class="hero">
       <div class="hero-badge">
@@ -543,6 +665,17 @@
       </p>
 
       <p class="hero-slogan">No leash. No limits. Just SARDOG.</p>
+
+      <div class="hero-contract">
+        <span class="hero-contract-label">CA:</span>
+        <span class="hero-contract-value">BGQ93dY5...ePpump</span>
+        <button class="hero-copy-btn" onclick="copyHeroContract()" id="heroCopyBtn">Copy CA</button>
+        <span class="hero-copy-status" id="heroCopyStatus">Copied ✓</span>
+      </div>
+
+      <div class="hero-sarcasm-tag">
+        Connected. Interlinked. Slightly sarcastic.
+      </div>
 
       <div class="hero-actions">
         <a href="https://join.pump.fun/HSag/06vq9end" class="btn" target="_blank">Buy SARDOG</a>
@@ -727,6 +860,32 @@
       </div>
 
       <div class="card full">
+        <h2>Meme Vault</h2>
+        <p style="max-width: 900px; margin-bottom: 22px;">
+          Download official SARDOG memes, share them, raid with them, and keep the pack moving.
+        </p>
+
+        <div class="meme-grid">
+          <div class="meme-item">
+            <img src="meme1.jpg" alt="SARDOG Meme 1">
+            <a href="meme1.jpg" class="btn" download>Download Meme 1</a>
+          </div>
+          <div class="meme-item">
+            <img src="meme2.jpg" alt="SARDOG Meme 2">
+            <a href="meme2.jpg" class="btn" download>Download Meme 2</a>
+          </div>
+          <div class="meme-item">
+            <img src="meme3.jpg" alt="SARDOG Meme 3">
+            <a href="meme3.jpg" class="btn" download>Download Meme 3</a>
+          </div>
+          <div class="meme-item">
+            <img src="meme4.jpg" alt="SARDOG Meme 4">
+            <a href="meme4.jpg" class="btn" download>Download Meme 4</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card full">
         <h2>Join the Pack</h2>
         <p>
           SARDOG is building a fast-moving pack powered by memes, raids, culture, and community.
@@ -755,6 +914,21 @@
         setTimeout(() => {
           status.classList.remove("show");
           btn.textContent = "Copy Contract";
+        }, 1800);
+      });
+    }
+
+    function copyHeroContract() {
+      const contract = "BGQ93dY5dKdbxuajhbDbYhXQcJ6Ax6g3zZ46ekePpump";
+      const status = document.getElementById("heroCopyStatus");
+      const btn = document.getElementById("heroCopyBtn");
+
+      navigator.clipboard.writeText(contract).then(() => {
+        status.classList.add("show");
+        btn.textContent = "Copied ✓";
+        setTimeout(() => {
+          status.classList.remove("show");
+          btn.textContent = "Copy CA";
         }, 1800);
       });
     }
@@ -808,6 +982,132 @@
       }
     }
 
+    const canvas = document.getElementById("networkCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let nodes = [];
+    let mouse = { x: null, y: null, radius: 140 };
+    let nodeCount = window.innerWidth < 768 ? 42 : 78;
+    let maxDistance = window.innerWidth < 768 ? 110 : 150;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      nodeCount = window.innerWidth < 768 ? 42 : 78;
+      maxDistance = window.innerWidth < 768 ? 110 : 150;
+      createNodes();
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+
+    window.addEventListener("mousemove", (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    window.addEventListener("mouseleave", () => {
+      mouse.x = null;
+      mouse.y = null;
+    });
+
+    function createNodes() {
+      nodes = [];
+      for (let i = 0; i < nodeCount; i++) {
+        nodes.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.55,
+          vy: (Math.random() - 0.5) * 0.55,
+          r: Math.random() * 2.2 + 1.1
+        });
+      }
+    }
+
+    function drawNode(node) {
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, node.r, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(0,255,136,0.9)";
+      ctx.shadowBlur = 14;
+      ctx.shadowColor = "rgba(0,255,136,0.5)";
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+
+    function drawLink(a, b, distance) {
+      const alpha = 1 - distance / maxDistance;
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.strokeStyle = `rgba(80,255,180,${alpha * 0.22})`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    function drawMouseLinks(node, distance) {
+      const alpha = 1 - distance / mouse.radius;
+      ctx.beginPath();
+      ctx.moveTo(node.x, node.y);
+      ctx.lineTo(mouse.x, mouse.y);
+      ctx.strokeStyle = `rgba(0,180,255,${alpha * 0.18})`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    function updateNodes() {
+      for (const node of nodes) {
+        node.x += node.vx;
+        node.y += node.vy;
+
+        if (node.x <= 0 || node.x >= canvas.width) node.vx *= -1;
+        if (node.y <= 0 || node.y >= canvas.height) node.vy *= -1;
+
+        if (mouse.x !== null && mouse.y !== null) {
+          const dx = node.x - mouse.x;
+          const dy = node.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < mouse.radius && dist > 0) {
+            node.x += dx / dist * 0.35;
+            node.y += dy / dist * 0.35;
+          }
+        }
+      }
+    }
+
+    function animateNetwork() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < maxDistance) {
+            drawLink(nodes[i], nodes[j], dist);
+          }
+        }
+
+        if (mouse.x !== null && mouse.y !== null) {
+          const dxm = nodes[i].x - mouse.x;
+          const dym = nodes[i].y - mouse.y;
+          const distMouse = Math.sqrt(dxm * dxm + dym * dym);
+
+          if (distMouse < mouse.radius) {
+            drawMouseLinks(nodes[i], distMouse);
+          }
+        }
+
+        drawNode(nodes[i]);
+      }
+
+      updateNodes();
+      requestAnimationFrame(animateNetwork);
+    }
+
+    resizeCanvas();
+    createNodes();
+    animateNetwork();
     loadSardogStats();
     setInterval(loadSardogStats, 60000);
   </script>
