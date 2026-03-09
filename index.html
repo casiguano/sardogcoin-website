@@ -1229,7 +1229,7 @@
 <h2 style="font-size:32px;margin-bottom:10px;">🎮 PLAY SARDOG RUN</h2>
 <p>Press SPACE to jump. Avoid rugs.</p>
 
-<canvas id="sardogGame" width="900" height="420"
+<canvas id="sardogCanvas" width="900" height="420"
 style="background:black;border:3px solid #00ff9f;border-radius:12px;margin-top:20px"></canvas>
 
 <p style="margin-top:15px;font-size:18px;">Score: <span id="score">0</span></p>
@@ -1238,34 +1238,48 @@ style="background:black;border:3px solid #00ff9f;border-radius:12px;margin-top:2
 
 <script>
 
-const canvas = document.getElementById("sardogGame")
+const canvas = document.getElementById("gameCanvas")
 const ctx = canvas.getContext("2d")
-const scoreElement = document.getElementById("score")
 
+let gameStarted = false
 let score = 0
-let speed = 6
-let gameRunning = false
+let gravity = 0.6
 
 const sardog = new Image()
 sardog.src = "SARDOG.jpg"
 
 const player = {
-x:100,
+x:80,
 y:300,
-width:70,
-height:70,
-dy:0,
-gravity:0.8,
-jump:-14,
-ground:300
+width:60,
+height:60,
+velocityY:0,
+jumpForce:-12
 }
 
 let obstacles = []
 
+document.addEventListener("keydown",function(e){
+
+if(e.code === "Space"){
+
+if(!gameStarted){
+gameStarted = true
+gameLoop()
+}
+
+if(player.y >= 300){
+player.velocityY = player.jumpForce
+}
+
+}
+
+})
+
 function spawnObstacle(){
 
 obstacles.push({
-x:canvas.width,
+x:800,
 y:320,
 width:40,
 height:40
@@ -1273,149 +1287,69 @@ height:40
 
 }
 
-function drawPlayer(){
-
-if(sardog.complete){
-
-ctx.drawImage(sardog, player.x, player.y, player.width, player.height)
-
-}else{
-
-ctx.fillStyle="white"
-ctx.fillRect(player.x,player.y,player.width,player.height)
-
-}
-
-}
-
-function updatePlayer(){
-
-player.dy += player.gravity
-player.y += player.dy
-
-if(player.y > player.ground){
-
-player.y = player.ground
-player.dy = 0
-
-}
-
-}
-
-function drawObstacles(){
-
-for(let i=0;i<obstacles.length;i++){
-
-let obs = obstacles[i]
-
-ctx.fillStyle="#ff004c"
-ctx.fillRect(obs.x,obs.y,obs.width,obs.height)
-
-obs.x -= speed
-
-if(obs.x + obs.width < 0){
-
-obstacles.splice(i,1)
-score++
-scoreElement.innerText = score
-speed += 0.2
-
-}
-
-if(
-player.x < obs.x + obs.width &&
-player.x + player.width > obs.x &&
-player.y < obs.y + obs.height &&
-player.y + player.height > obs.y
-){
-
-gameOver()
-
-}
-
-}
-
-}
-
-function gameOver(){
-
-gameRunning = false
-
-ctx.fillStyle="white"
-ctx.font="40px Arial"
-ctx.fillText("GAME OVER",canvas.width/2-120,200)
-
-ctx.font="20px Arial"
-ctx.fillText("Press SPACE to restart",canvas.width/2-110,240)
-
-}
+setInterval(spawnObstacle,2000)
 
 function update(){
 
-ctx.clearRect(0,0,canvas.width,canvas.height)
+player.velocityY += gravity
+player.y += player.velocityY
 
-if(gameRunning){
-
-updatePlayer()
-drawPlayer()
-drawObstacles()
-
-requestAnimationFrame(update)
-
-}else{
-
-drawPlayer()
-
+if(player.y > 300){
+player.y = 300
 }
 
-}
+obstacles.forEach(o=>{
+o.x -= 6
+})
 
-document.addEventListener("keydown",function(e){
+obstacles = obstacles.filter(o=>o.x>-50)
 
-if(e.code==="Space"){
+obstacles.forEach(o=>{
 
-if(!gameRunning){
-
-resetGame()
-gameRunning=true
-update()
-
-}else if(player.y === player.ground){
-
-player.dy = player.jump
-
-}
-
+if(
+player.x < o.x + o.width &&
+player.x + player.width > o.x &&
+player.y < o.y + o.height &&
+player.y + player.height > o.y
+){
+alert("Game Over! Score: " + score)
+location.reload()
 }
 
 })
 
-function resetGame(){
-
-score = 0
-speed = 6
-scoreElement.innerText = score
-
-player.y = player.ground
-player.dy = 0
-
-obstacles = []
+score++
+document.getElementById("score").innerText = "Score: " + score
 
 }
 
-setInterval(function(){
+function draw(){
 
-if(gameRunning){
+ctx.clearRect(0,0,800,400)
 
-spawnObstacle()
-
-}
-
-},1500)
-
+if(sardog.complete){
+ctx.drawImage(sardog,player.x,player.y,player.width,player.height)
+}else{
 ctx.fillStyle="white"
-ctx.font="30px Arial"
-ctx.fillText("PRESS SPACE TO START",canvas.width/2-170,200)
+ctx.fillRect(player.x,player.y,player.width,player.height)
+}
+
+ctx.fillStyle="red"
+
+obstacles.forEach(o=>{
+ctx.fillRect(o.x,o.y,o.width,o.height)
+})
+
+}
+
+function gameLoop(){
+
+update()
+draw()
+
+requestAnimationFrame(gameLoop)
+
+}
 
 </script>
 </body>
