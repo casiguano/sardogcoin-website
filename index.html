@@ -1500,14 +1500,16 @@ async function loadHolders(){
 try{
 
 const res = await fetch("https://api.dexscreener.com/latest/dex/tokens/BGQ93dY5dKdbxuajhbDbYhXQcJ6Ax6g3zZ46ekePpump")
+
 const data = await res.json()
 
-document.getElementById("holders").innerText =
-data.pairs[0].holders + " 🐕"
+const holders = data.pairs && data.pairs.length ? data.pairs[0].holders : "0"
 
-}catch{
+document.getElementById("holders").innerText = holders + " 🐕"
 
-document.getElementById("holders").innerText = "Growing fast 🚀"
+}catch(e){
+
+document.getElementById("holders").innerText = "N/A"
 
 }
 
@@ -1515,7 +1517,7 @@ document.getElementById("holders").innerText = "Growing fast 🚀"
 
 loadHolders()
 
-setInterval(loadHolders,60000)
+setInterval(loadHolders,30000)
 </script>
   <!-- FOMO BANNER -->
 
