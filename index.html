@@ -1552,5 +1552,30 @@ document.getElementById("fomo").innerText = random
 setInterval(updateFomo,15000)
 
 </script>
+async function loadHolders(){
+
+try{
+
+const response = await fetch("https://public-api.solscan.io/token/holders?tokenAddress=BGQ93dY5dKdbxuajhbDbYhXQcJ6Ax6g3zZ46ekePpump&limit=1")
+
+const data = await response.json()
+
+const holders = data.total
+
+document.getElementById("holders").innerText = holders
+
+}catch(e){
+
+document.getElementById("holders").innerText = "N/A"
+
+}
+
+}
+
+loadHolders()
+
+setInterval(loadHolders,30000)
+
+</script>
 </body>
 </html>
