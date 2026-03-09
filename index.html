@@ -1456,5 +1456,101 @@ link.click();
 
 }
   </script>
+  <section style="text-align:center;padding:40px;">
+
+<h2>How to Buy SARDOG</h2>
+
+<p>1️⃣ Download Phantom Wallet</p>
+<p>2️⃣ Buy SOL</p>
+<p>3️⃣ Go to Pump.fun</p>
+<p>4️⃣ Swap SOL for SARDOG</p>
+
+</section>
+  <section style="text-align:center;padding:40px;">
+    <h2>🐕 SARDOG RAID CENTER</h2>
+
+<button onclick="copyRaid()" style="padding:10px;margin:10px;">
+Copy Raid Tweet
+</button>
+
+</section>
+
+<script>
+
+function copyRaid(){
+
+const text =
+"SARDOG is the next Solana memecoin 🐕🚀 #SARDOG"
+
+navigator.clipboard.writeText(text)
+
+alert("Raid tweet copied!")
+
+}
+
+</script>
+ <section style="text-align:center;padding:40px;">
+<h2>🐕 SARDOG Holders</h2>
+<p id="holders" style="font-size:30px;">Loading...</p>
+</section>
+
+<script>
+async function loadHolders(){
+
+try{
+
+const res = await fetch("https://api.dexscreener.com/latest/dex/tokens/BGQ93dY5dKdbxuajhbDbYhXQcJ6Ax6g3zZ46ekePpump")
+const data = await res.json()
+
+document.getElementById("holders").innerText =
+data.pairs[0].holders + " 🐕"
+
+}catch{
+
+document.getElementById("holders").innerText = "Growing fast 🚀"
+
+}
+
+}
+
+loadHolders()
+
+setInterval(loadHolders,60000)
+</script>
+  <!-- FOMO BANNER -->
+
+<div id="fomo" style="
+background:#ff6600;
+color:white;
+padding:10px;
+text-align:center;
+font-weight:bold;
+">
+
+🔥 New wallet joined the SARDOG pack
+
+</div>
+
+<script>
+
+const messages = [
+"🔥 5 wallets bought SARDOG",
+"🐕 New pack member joined",
+"🚀 SARDOG gaining momentum",
+"💎 Diamond hands entering",
+"🐕 The pack is growing"
+]
+
+function updateFomo(){
+
+const random = messages[Math.floor(Math.random()*messages.length)]
+
+document.getElementById("fomo").innerText = random
+
+}
+
+setInterval(updateFomo,15000)
+
+</script>
 </body>
 </html>
