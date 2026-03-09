@@ -40,6 +40,20 @@ obstacles.push({x:900,y:320,width:30,height:40});
 
 obstacles.forEach(o => o.x -= 6);
 
+obstacles.forEach(o => {
+
+if(
+player.x < o.x + o.width &&
+player.x + player.width > o.x &&
+player.y < o.y + o.height &&
+player.y + player.height > o.y
+){
+alert("Game Over! Score: " + score);
+location.reload();
+}
+
+});
+
 obstacles = obstacles.filter(o => o.x > -40);
 
 score++;
