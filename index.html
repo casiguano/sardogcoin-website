@@ -1308,7 +1308,13 @@ requestAnimationFrame(gameLoop)
 
 }
 
-gameLoop()
+function startGame(){
+
+document.getElementById("startScreen").style.display = "none";
+
+gameLoop();
+
+}
 
 </script>
 <script src="sardog-game.js"></script>
