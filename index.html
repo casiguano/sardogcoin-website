@@ -1223,10 +1223,11 @@
     setInterval(loadSardogStats, 60000);
   </script>
 <!-- SARDOG GAME SECTION -->
+
 <section style="padding:80px 20px;text-align:center;background:#050505;color:white">
 
 <h2 style="font-size:32px;margin-bottom:10px;">🎮 PLAY SARDOG RUN</h2>
-<p>Press SPACE to jump. Avoid the rugs.</p>
+<p>Press SPACE to jump. Avoid rugs.</p>
 
 <canvas id="sardogGame" width="900" height="420"
 style="background:black;border:3px solid #00ff9f;border-radius:12px;margin-top:20px"></canvas>
@@ -1239,11 +1240,10 @@ style="background:black;border:3px solid #00ff9f;border-radius:12px;margin-top:2
 
 const canvas = document.getElementById("sardogGame")
 const ctx = canvas.getContext("2d")
-
 const scoreElement = document.getElementById("score")
 
-let gameSpeed = 6
 let score = 0
+let speed = 6
 let gameRunning = false
 
 const sardog = new Image()
@@ -1256,24 +1256,36 @@ width:70,
 height:70,
 dy:0,
 gravity:0.8,
-jumpPower:-14,
-ground:300,
-jumping:false
+jump:-14,
+ground:300
 }
 
 let obstacles = []
 
 function spawnObstacle(){
+
 obstacles.push({
 x:canvas.width,
 y:320,
 width:40,
 height:40
 })
+
 }
 
 function drawPlayer(){
+
+if(sardog.complete){
+
 ctx.drawImage(sardog, player.x, player.y, player.width, player.height)
+
+}else{
+
+ctx.fillStyle="white"
+ctx.fillRect(player.x,player.y,player.width,player.height)
+
+}
+
 }
 
 function updatePlayer(){
@@ -1281,10 +1293,11 @@ function updatePlayer(){
 player.dy += player.gravity
 player.y += player.dy
 
-if(player.y >= player.ground){
+if(player.y > player.ground){
+
 player.y = player.ground
 player.dy = 0
-player.jumping = false
+
 }
 
 }
@@ -1295,16 +1308,18 @@ for(let i=0;i<obstacles.length;i++){
 
 let obs = obstacles[i]
 
-ctx.fillStyle = "#ff004c"
-ctx.fillRect(obs.x, obs.y, obs.width, obs.height)
+ctx.fillStyle="#ff004c"
+ctx.fillRect(obs.x,obs.y,obs.width,obs.height)
 
-obs.x -= gameSpeed
+obs.x -= speed
 
 if(obs.x + obs.width < 0){
+
 obstacles.splice(i,1)
 score++
 scoreElement.innerText = score
-gameSpeed += 0.1
+speed += 0.2
+
 }
 
 if(
@@ -1313,7 +1328,9 @@ player.x + player.width > obs.x &&
 player.y < obs.y + obs.height &&
 player.y + player.height > obs.y
 ){
+
 gameOver()
+
 }
 
 }
@@ -1324,12 +1341,12 @@ function gameOver(){
 
 gameRunning = false
 
-ctx.fillStyle = "white"
-ctx.font = "40px Arial"
-ctx.fillText("GAME OVER", canvas.width/2 -120,200)
+ctx.fillStyle="white"
+ctx.font="40px Arial"
+ctx.fillText("GAME OVER",canvas.width/2-120,200)
 
-ctx.font = "20px Arial"
-ctx.fillText("Press SPACE to restart", canvas.width/2 -110,240)
+ctx.font="20px Arial"
+ctx.fillText("Press SPACE to restart",canvas.width/2-110,240)
 
 }
 
@@ -1353,20 +1370,19 @@ drawPlayer()
 
 }
 
-document.addEventListener("keydown", function(e){
+document.addEventListener("keydown",function(e){
 
-if(e.code === "Space"){
+if(e.code==="Space"){
 
 if(!gameRunning){
 
 resetGame()
-gameRunning = true
+gameRunning=true
 update()
 
-}else if(!player.jumping){
+}else if(player.y === player.ground){
 
-player.dy = player.jumpPower
-player.jumping = true
+player.dy = player.jump
 
 }
 
@@ -1377,7 +1393,7 @@ player.jumping = true
 function resetGame(){
 
 score = 0
-gameSpeed = 6
+speed = 6
 scoreElement.innerText = score
 
 player.y = player.ground
@@ -1397,9 +1413,9 @@ spawnObstacle()
 
 },1500)
 
-ctx.fillStyle = "white"
-ctx.font = "30px Arial"
-ctx.fillText("PRESS SPACE TO START", canvas.width/2 -170,200)
+ctx.fillStyle="white"
+ctx.font="30px Arial"
+ctx.fillText("PRESS SPACE TO START",canvas.width/2-170,200)
 
 </script>
 </body>
