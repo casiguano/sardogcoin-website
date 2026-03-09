@@ -1555,11 +1555,11 @@ async function loadHolders(){
 
 try{
 
-const response = await fetch("https://public-api.solscan.io/token/holders?tokenAddress=BGQ93dY5dKdbxuajhbDbYhXQcJ6Ax6g3zZ46ekePpump&limit=1")
+const response = await fetch("https://api.dexscreener.com/latest/dex/tokens/BGQ93dY5dKdbxuajhbDbYhXQcJ6Ax6g3zZ46ekePpump")
 
 const data = await response.json()
 
-const holders = data.total
+const holders = data.pairs[0].holders
 
 document.getElementById("holders").innerText = holders
 
