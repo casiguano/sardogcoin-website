@@ -1382,11 +1382,18 @@ setInterval(loadExtraStats,60000);
 // MEME GENERATOR
 
 let memeImg = new Image();
-memeImg.src = "SARDOG.jpg";
+let memeReady = false;
 
 memeImg.onload = function () {
+  memeReady = true;
   generateMeme();
 };
+
+memeImg.onerror = function () {
+  alert("No se pudo cargar SARDOG.jpg. Revisa que el archivo exista con ese nombre exacto.");
+};
+
+memeImg.src = "SARDOG.jpg";
 
 function drawMemeText(ctx, text, x, y, maxWidth, fontSize) {
   const words = text.toUpperCase().split(" ");
@@ -1423,8 +1430,6 @@ function drawMemeText(ctx, text, x, y, maxWidth, fontSize) {
 }
 
 function generateMeme() {
-  if (!memeImg) return;
-
   const canvas = document.getElementById("memeCanvas");
   const ctx = canvas.getContext("2d");
 
@@ -1432,12 +1437,17 @@ function generateMeme() {
   canvas.height = 500;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  if (!memeReady) {
+    return;
+  }
+
   ctx.drawImage(memeImg, 0, 0, canvas.width, canvas.height);
 
   const top = document.getElementById("topText").value.trim();
   const bottom = document.getElementById("bottomText").value.trim();
-
-  ctx.font = "bold 42px Impact, Arial Black, sans-serif";
 
   if (top) {
     drawMemeText(ctx, top, canvas.width / 2, 52, 440, 42);
@@ -1447,7 +1457,6 @@ function generateMeme() {
     const words = bottom.toUpperCase().split(" ");
     let lines = [];
     let currentLine = "";
-
     ctx.font = "bold 42px Impact, Arial Black, sans-serif";
 
     for (let i = 0; i < words.length; i++) {
