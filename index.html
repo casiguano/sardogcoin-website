@@ -1229,9 +1229,9 @@
 <h2>PLAY SARDOG RUN</h2>
 <p>Press SPACE to jump</p>
 
-<div id="startScreen" style="margin-bottom:20px;">
-<button onclick="startGame()" style="font-size:20px;padding:10px 30px;">PLAY</button>
-</div>
+<button onclick="startGame()" style="font-size:20px;padding:10px 30px;margin-bottom:20px;">
+PLAY
+</button>
 
 <canvas id="gameCanvas" width="900" height="420" style="background:black;border:3px solid #00ff9f"></canvas>
 
@@ -1244,7 +1244,7 @@ const ctx = canvas.getContext("2d")
 
 let score = 0
 let gravity = 0.6
-let gameStarted = false
+let running = false
 
 const player = {
 x:80,
@@ -1314,7 +1314,7 @@ ctx.fillRect(o.x,o.y,o.width,o.height)
 
 function gameLoop(){
 
-if(!gameStarted) return
+if(!running) return
 
 update()
 draw()
@@ -1325,9 +1325,7 @@ requestAnimationFrame(gameLoop)
 
 function startGame(){
 
-gameStarted = true
-document.getElementById("startScreen").style.display="none"
-
+running = true
 gameLoop()
 
 }
