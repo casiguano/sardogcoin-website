@@ -1246,7 +1246,7 @@ let score = 0
 let gravity = 0.6
 
 const sardog = new Image()
-sardog.src = "SARDOG.jpg"
+sardog.src = "./SARDOG.jpg"
 
 const player = {
 x:80,
@@ -1325,9 +1325,9 @@ document.getElementById("score").innerText = "Score: " + score
 
 function draw(){
 
-ctx.clearRect(0,0,800,400)
+ctx.clearRect(0,0,900,420)
 
-if(sardog.complete){
+if(true){
 ctx.drawImage(sardog,player.x,player.y,player.width,player.height)
 }else{
 ctx.fillStyle="white"
