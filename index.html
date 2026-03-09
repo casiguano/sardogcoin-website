@@ -1222,5 +1222,126 @@
     loadSardogStats();
     setInterval(loadSardogStats, 60000);
   </script>
+  <!-- SARDOG GAME SECTION --><section style="padding:80px 20px;text-align:center;background:#050505;color:white"><h2 style="font-size:40px;margin-bottom:20px;">🐶 PLAY SARDOG RUG RUNNER</h2>
+<p>Jump. Avoid rugs. Collect coins.</p><canvas id="sardogGame" width="800" height="400"
+style="background:black;border:2px solid #00ff9f;border-radius:10px;margin-top:20px"></canvas>
+
+<p style="margin-top:15px">Score: <span id="score">0</span></p></section><script>
+
+const canvas = document.getElementById("sardogGame")
+const ctx = canvas.getContext("2d")
+
+let player = {
+x:100,
+y:300,
+width:40,
+height:40,
+dy:0,
+jumping:false
+}
+
+let gravity = 0.6
+let score = 0
+let obstacles = []
+let coins = []
+
+function spawnObstacle(){
+obstacles.push({
+x:canvas.width,
+y:320,
+width:30,
+height:30
+})
+}
+
+function spawnCoin(){
+coins.push({
+x:canvas.width,
+y:200,
+radius:10
+})
+}
+
+setInterval(spawnObstacle,2000)
+setInterval(spawnCoin,3000)
+
+document.addEventListener("keydown",function(e){
+if(e.code==="Space" && !player.jumping){
+player.dy=-12
+player.jumping=true
+}
+})
+
+function update(){
+
+player.dy+=gravity
+player.y+=player.dy
+
+if(player.y>300){
+player.y=300
+player.jumping=false
+}
+
+obstacles.forEach(o=>{
+o.x-=6
+
+if(
+player.x < o.x + o.width &&
+player.x + player.width > o.x &&
+player.y < o.y + o.height &&
+player.y + player.height > o.y
+){
+alert("RUGGED! Score: "+score)
+document.location.reload()
+}
+})
+
+coins.forEach((c,i)=>{
+c.x-=6
+
+let dx = player.x - c.x
+let dy = player.y - c.y
+let distance = Math.sqrt(dx*dx+dy*dy)
+
+if(distance<30){
+score+=100
+coins.splice(i,1)
+}
+})
+
+score++
+document.getElementById("score").innerText=score
+}
+
+function draw(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height)
+
+ctx.fillStyle="#00ff9f"
+ctx.fillRect(player.x,player.y,player.width,player.height)
+
+ctx.fillStyle="red"
+obstacles.forEach(o=>{
+ctx.fillRect(o.x,o.y,o.width,o.height)
+})
+
+ctx.fillStyle="yellow"
+coins.forEach(c=>{
+ctx.beginPath()
+ctx.arc(c.x,c.y,c.radius,0,Math.PI*2)
+ctx.fill()
+})
+
+}
+
+function gameLoop(){
+update()
+draw()
+requestAnimationFrame(gameLoop)
+}
+
+gameLoop()
+
+</script>
 </body>
 </html>
