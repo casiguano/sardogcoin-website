@@ -1495,30 +1495,7 @@ alert("Raid tweet copied!")
 </section>
 
 <script>
-async function loadHolders(){
 
-try{
-
-const res = await fetch("https://api.dexscreener.com/latest/dex/tokens/BGQ93dY5dKdbxuajhbDbYhXQcJ6Ax6g3zZ46ekePpump")
-
-const data = await res.json()
-
-const holders = data.pairs && data.pairs.length ? data.pairs[0].holders : "0"
-
-document.getElementById("holders").innerText = holders + " 🐕"
-
-}catch(e){
-
-document.getElementById("holders").innerText = "N/A"
-
-}
-
-}
-
-loadHolders()
-
-setInterval(loadHolders,30000)
-</script>
   <!-- FOMO BANNER -->
 
 <div id="fomo" style="
