@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SARDOG RUG JUMP</title>
+
+<style>
+
+body{
+margin:0;
+background:black;
+overflow:hidden;
+font-family:Arial;
+}
+
+canvas{
+display:block;
+margin:auto;
+background:#111;
+border:2px solid #00ff9f;
+}
+
+#overlay{
+position:absolute;
+width:100%;
+top:40%;
+text-align:center;
+color:white;
+font-size:40px;
+}
+
+#score{
+position:absolute;
+top:20px;
+left:20px;
+color:#00ff9f;
+font-size:24px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="overlay">PRESS SPACE TO START</div>
+<div id="score">Score: 0</div>
+
+<canvas id="game" width="900" height="400"></canvas>
+
+<script>
+
+const canvas = document.getElementById("game")
+const ctx = canvas.getContext("2d")
+
+let gravity = 0.6
+let score = 0
+let obstacles = []
+
+let gameStarted = false
+let gameOver = false
+
+const player = {
+x:100,
+y:300,
+width:40,
+height:40,
+dy:0,
+jumping:false
+}
+
+document.addEventListener("keydown",function(e){
+
+if(e.code==="Space"){
+
+if(!gameStarted){
+gameStarted=true
+document.getElementById("overlay").innerText=""
+return
+}
+
+if(gameOver){
+location.reload()
+}
+
+if(!player.jumping){
+player.dy=-12
+player.jumping=true
+}
+
+}
+
+})
+
+function spawnObstacle(){
+
+let size=40
+
+obstacles.push({
+x:canvas.width,
+y:360-size,
+width:size,
+height:size
+})
+
+}
+
+setInterval(function(){
+
+if(gameStarted && !gameOver){
+spawnObstacle()
+}
+
+},1500)
+
+function update(){
+
+if(!gameStarted || gameOver){
+requestAnimationFrame(update)
+return
+}
+
+player.dy+=gravity
+player.y+=player.dy
+
+if(player.y>=300){
+player.y=300
+player.dy=0
+player.jumping=false
+}
+
+for(let i=0;i<obstacles.length;i++){
+
+obstacles[i].x-=6
+
+if(
+player.x < obstacles[i].x + obstacles[i].width &&
+player.x + player.width > obstacles[i].x &&
+player.y < obstacles[i].y + obstacles[i].height &&
+player.y + player.height > obstacles[i].y
+){
+
+gameOver=true
+
+document.getElementById("overlay").innerText="GAME OVER\nPRESS SPACE TO RESTART"
+
+}
+
+}
+
+obstacles=obstacles.filter(o=>o.x>-50)
+
+score++
+document.getElementById("score").innerText="Score: "+score
+
+draw()
+
+requestAnimationFrame(update)
+
+}
+
+function draw(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height)
+
+ctx.fillStyle="#00ff9f"
+ctx.fillRect(player.x,player.y,player.width,player.height)
+
+ctx.fillStyle="#ff0033"
+
+for(let i=0;i<obstacles.length;i++){
+
+ctx.fillRect(
+obstacles[i].x,
+obstacles[i].y,
+obstacles[i].width,
+obstacles[i].height
+)
+
+}
+
+}
+
+update()
+
+</script>
+
+</body>
+</html>
