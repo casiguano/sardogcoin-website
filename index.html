@@ -1226,13 +1226,15 @@
 
 <section style="padding:80px 20px;text-align:center;background:#050505;color:white">
 
-<h2 style="font-size:32px;margin-bottom:10px;">🎮 PLAY SARDOG RUN</h2>
+<h2 style="font-size:32px;margin-bottom:10px;">🐶 PLAY SARDOG RUN</h2>
 <p>Press SPACE to jump. Avoid rugs.</p>
 
 <canvas id="gameCanvas" width="900" height="420"
 style="background:black;border:3px solid #00ff9f;border-radius:12px;margin-top:20px"></canvas>
 
-<p style="margin-top:15px;font-size:18px;">Score: <span id="score">0</span></p>
+<p style="margin-top:15px;font-size:18px;">
+Score: <span id="score">0</span>
+</p>
 
 </section>
 
@@ -1241,7 +1243,6 @@ style="background:black;border:3px solid #00ff9f;border-radius:12px;margin-top:2
 const canvas = document.getElementById("gameCanvas")
 const ctx = canvas.getContext("2d")
 
-let gameStarted = false
 let score = 0
 let gravity = 0.6
 
@@ -1263,11 +1264,6 @@ document.addEventListener("keydown",function(e){
 
 if(e.code === "Space"){
 
-if(!gameStarted){
-gameStarted = true
-gameLoop()
-}
-
 if(player.y >= 300){
 player.velocityY = player.jumpForce
 }
@@ -1276,19 +1272,6 @@ player.velocityY = player.jumpForce
 
 })
 
-function spawnObstacle(){
-
-obstacles.push({
-x:800,
-y:320,
-width:40,
-height:40
-})
-
-}
-
-setInterval(spawnObstacle,2000)
-
 function update(){
 
 player.velocityY += gravity
@@ -1296,13 +1279,25 @@ player.y += player.velocityY
 
 if(player.y > 300){
 player.y = 300
+player.velocityY = 0
+}
+
+if(Math.random() < 0.02){
+
+obstacles.push({
+x:900,
+y:320,
+width:30,
+height:40
+})
+
 }
 
 obstacles.forEach(o=>{
 o.x -= 6
 })
 
-obstacles = obstacles.filter(o=>o.x>-50)
+obstacles = obstacles.filter(o=>o.x > -40)
 
 obstacles.forEach(o=>{
 
@@ -1312,14 +1307,13 @@ player.x + player.width > o.x &&
 player.y < o.y + o.height &&
 player.y + player.height > o.y
 ){
-alert("Game Over! Score: " + score)
-location.reload()
+score = 0
 }
 
 })
 
-score++
-document.getElementById("score").innerText = "Score: " + score
+score += 0.05
+document.getElementById("score").innerText = Math.floor(score)
 
 }
 
@@ -1327,12 +1321,7 @@ function draw(){
 
 ctx.clearRect(0,0,900,420)
 
-if(true){
 ctx.drawImage(sardog,player.x,player.y,player.width,player.height)
-}else{
-ctx.fillStyle="white"
-ctx.fillRect(player.x,player.y,player.width,player.height)
-}
 
 ctx.fillStyle="red"
 
@@ -1350,7 +1339,9 @@ draw()
 requestAnimationFrame(gameLoop)
 
 }
+
 gameLoop()
+
 </script>
 </body>
 </html>
