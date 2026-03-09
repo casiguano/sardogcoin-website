@@ -1011,7 +1011,7 @@
 
 <!-- ROAD TO 10M -->
 <div class="card full">
-<h2>Road to 10M Market Cap</h2>
+<h2>Road to 10K Market Cap</h2>
 
 <div style="background:#111;border-radius:20px;height:26px;overflow:hidden;margin-top:16px;">
 <div id="mcBar" style="background:#00ff88;height:100%;width:10%;transition:0.6s;"></div>
@@ -1367,11 +1367,11 @@ document.getElementById("volume24").innerText="$"+Number(pair.volume.h24).toLoca
 
 document.getElementById("mc").innerText="$"+Number(pair.marketCap).toLocaleString();
 
-const progress=(pair.marketCap/10000000)*100;
+const progress=(pair.marketCap/10000)*100;
 
 document.getElementById("mcBar").style.width=progress+"%";
 
-document.getElementById("mcProgress").innerText="$"+Number(pair.marketCap).toLocaleString()+" / $10,000,000";
+document.getElementById("mcProgress").innerText="$"+Number(pair.marketCap).toLocaleString()+" / $10,000";
 
 }catch(e){}
 
