@@ -1228,15 +1228,14 @@
 
 <h2>PLAY SARDOG RUN</h2>
 <p>Press SPACE to jump</p>
-<div id="startScreen">
-<button onclick="startGame()">PLAY</button>
+
+<div id="startScreen" style="margin-bottom:20px;">
+<button onclick="startGame()" style="font-size:20px;padding:10px 30px;">PLAY</button>
 </div>
 
 <canvas id="gameCanvas" width="900" height="420" style="background:black;border:3px solid #00ff9f"></canvas>
 
 <p>Score: <span id="score">0</span></p>
-
-</section>
 
 <script>
 
@@ -1245,6 +1244,7 @@ const ctx = canvas.getContext("2d")
 
 let score = 0
 let gravity = 0.6
+let gameStarted = false
 
 const player = {
 x:80,
@@ -1256,12 +1256,10 @@ velocityY:0
 
 let obstacles = []
 
-document.addEventListener("keydown",function(e){
-
-if(e.code === "Space" && player.y >= 300){
+document.addEventListener("keydown", e=>{
+if(e.code==="Space" && player.y>=300){
 player.velocityY = -12
 }
-
 })
 
 function update(){
@@ -1269,20 +1267,32 @@ function update(){
 player.velocityY += gravity
 player.y += player.velocityY
 
-if(player.y > 300){
-player.y = 300
-player.velocityY = 0
+if(player.y>300){
+player.y=300
+player.velocityY=0
 }
 
-if(Math.random() < 0.02){
+if(Math.random()<0.02){
 obstacles.push({x:900,y:320,width:30,height:40})
 }
 
-obstacles.forEach(o=>o.x -= 6)
+obstacles.forEach(o=>o.x-=6)
 
-obstacles = obstacles.filter(o=>o.x > -40)
+obstacles.forEach(o=>{
+if(
+player.x < o.x + o.width &&
+player.x + player.width > o.x &&
+player.y < o.y + o.height &&
+player.y + player.height > o.y
+){
+alert("Game Over! Score: "+score)
+location.reload()
+}
+})
 
-score += 1
+obstacles = obstacles.filter(o=>o.x>-40)
+
+score++
 document.getElementById("score").innerText = score
 
 }
@@ -1295,11 +1305,16 @@ ctx.fillStyle="white"
 ctx.fillRect(player.x,player.y,player.width,player.height)
 
 ctx.fillStyle="red"
-obstacles.forEach(o=>ctx.fillRect(o.x,o.y,o.width,o.height))
+
+obstacles.forEach(o=>{
+ctx.fillRect(o.x,o.y,o.width,o.height)
+})
 
 }
 
 function gameLoop(){
+
+if(!gameStarted) return
 
 update()
 draw()
@@ -1310,13 +1325,13 @@ requestAnimationFrame(gameLoop)
 
 function startGame(){
 
-document.getElementById("startScreen").style.display = "none";
+gameStarted = true
+document.getElementById("startScreen").style.display="none"
 
-gameLoop();
+gameLoop()
 
 }
 
 </script>
-<script src="sardog-game.js"></script>
 </body>
 </html>
