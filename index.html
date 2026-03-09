@@ -1226,15 +1226,12 @@
 
 <section style="padding:80px 20px;text-align:center;background:#050505;color:white">
 
-<h2 style="font-size:32px;margin-bottom:10px;">🐶 PLAY SARDOG RUN</h2>
-<p>Press SPACE to jump. Avoid rugs.</p>
+<h2>PLAY SARDOG RUN</h2>
+<p>Press SPACE to jump</p>
 
-<canvas id="gameCanvas" width="900" height="420"
-style="background:black;border:3px solid #00ff9f;border-radius:12px;margin-top:20px"></canvas>
+<canvas id="gameCanvas" width="900" height="420" style="background:black;border:3px solid #00ff9f"></canvas>
 
-<p style="margin-top:15px;font-size:18px;">
-Score: <span id="score">0</span>
-</p>
+<p>Score: <span id="score">0</span></p>
 
 </section>
 
@@ -1246,28 +1243,20 @@ const ctx = canvas.getContext("2d")
 let score = 0
 let gravity = 0.6
 
-const sardog = new Image()
-sardog.src = "./SARDOG.jpg"
-
 const player = {
 x:80,
 y:300,
-width:60,
-height:60,
-velocityY:0,
-jumpForce:-12
+width:50,
+height:50,
+velocityY:0
 }
 
 let obstacles = []
 
 document.addEventListener("keydown",function(e){
 
-if(e.code === "Space"){
-
-if(player.y >= 300){
-player.velocityY = player.jumpForce
-}
-
+if(e.code === "Space" && player.y >= 300){
+player.velocityY = -12
 }
 
 })
@@ -1283,37 +1272,15 @@ player.velocityY = 0
 }
 
 if(Math.random() < 0.02){
-
-obstacles.push({
-x:900,
-y:320,
-width:30,
-height:40
-})
-
+obstacles.push({x:900,y:320,width:30,height:40})
 }
 
-obstacles.forEach(o=>{
-o.x -= 6
-})
+obstacles.forEach(o=>o.x -= 6)
 
 obstacles = obstacles.filter(o=>o.x > -40)
 
-obstacles.forEach(o=>{
-
-if(
-player.x < o.x + o.width &&
-player.x + player.width > o.x &&
-player.y < o.y + o.height &&
-player.y + player.height > o.y
-){
-score = 0
-}
-
-})
-
-score += 0.05
-document.getElementById("score").innerText = Math.floor(score)
+score += 1
+document.getElementById("score").innerText = score
 
 }
 
@@ -1321,13 +1288,11 @@ function draw(){
 
 ctx.clearRect(0,0,900,420)
 
-ctx.drawImage(sardog,player.x,player.y,player.width,player.height)
+ctx.fillStyle="white"
+ctx.fillRect(player.x,player.y,player.width,player.height)
 
 ctx.fillStyle="red"
-
-obstacles.forEach(o=>{
-ctx.fillRect(o.x,o.y,o.width,o.height)
-})
+obstacles.forEach(o=>ctx.fillRect(o.x,o.y,o.width,o.height))
 
 }
 
