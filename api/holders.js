@@ -3,7 +3,7 @@ export default async function handler(req, res) {
     const tokenAddress = "BGQ93dY5dKdbxuajhbDbYhXQcJ6Ax6g3zZ46ekePpump";
 
     const response = await fetch(
-      https://pro-api.solscan.io/v2.0/token/holders?address=${tokenAddress}&page=1&page_size=10,
+      `https://pro-api.solscan.io/v2.0/token/holders?address=${tokenAddress}&page=1&page_size=10`,
       {
         headers: {
           token: process.env.SOLSCAN_API_KEY
