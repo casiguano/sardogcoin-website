@@ -1473,13 +1473,60 @@ function generateMeme() {
     drawMemeText(ctx, top, canvas.width / 2, 50, 420, 40);
   }
 
-  if (bottom) {
-  const result = drawMemeText(ctx, bottom, canvas.width / 2, 0, 420, 40);
-  const lineHeight = result.fontSize + 8;
-  const totalHeight = result.linesCount * lineHeight;
+ if (bottom) {
+  const words = bottom.toUpperCase().split(" ");
+  let fontSize = 40;
+  let lines = [];
+
+  function buildBottomLines(size) {
+    ctx.font = "bold " + size + "px Impact, Arial Black, sans-serif";
+    let testLines = [];
+    let currentLine = "";
+
+    for (let i = 0; i < words.length; i++) {
+      const testLine = currentLine ? currentLine + " " + words[i] : words[i];
+      const testWidth = ctx.measureText(testLine).width;
+
+      if (testWidth > 420 && currentLine) {
+        testLines.push(currentLine);
+        currentLine = words[i];
+      } else {
+        currentLine = testLine;
+      }
+    }
+
+    if (currentLine) testLines.push(currentLine);
+    return testLines;
+  }
+
+  lines = buildBottomLines(fontSize);
+
+  while ((lines.length > 3 || lines.some(line => ctx.measureText(line).width > 420)) && fontSize > 24) {
+    fontSize -= 2;
+    lines = buildBottomLines(fontSize);
+  }
+
+  const lineHeight = fontSize + 8;
+  const totalHeight = lines.length * lineHeight;
   const startY = canvas.height - 22 - totalHeight + lineHeight;
 
-  drawMemeText(ctx, bottom, canvas.width / 2, startY, 420, 40);
+  lines.forEach((line, index) => {
+    const y = startY + index * lineHeight;
+
+    ctx.font = "bold " + fontSize + "px Impact, Arial Black, sans-serif";
+    ctx.textAlign = "center";
+    ctx.lineJoin = "round";
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 4;
+    ctx.fillStyle = "white";
+    ctx.shadowColor = "rgba(0,0,0,0.35)";
+    ctx.shadowBlur = 4;
+
+    ctx.strokeText(line, canvas.width / 2, y);
+    ctx.fillText(line, canvas.width / 2, y);
+  });
+
+  ctx.shadowBlur = 0;
 }
 }  
 
