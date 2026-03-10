@@ -1800,6 +1800,23 @@ function closeWalletModal() {
   document.getElementById('walletModal').classList.remove('active');
 }
 
+async function disconnectWallet() {
+  try {
+    if (walletState.provider && typeof walletState.provider.disconnect === 'function') {
+      await walletState.provider.disconnect();
+    }
+
+    walletState.provider = null;
+    walletState.publicKey = null;
+    walletState.walletName = null;
+
+    updateWalletButton();
+    setWalletStatus('Wallet desconectada.');
+  } catch (error) {
+    console.error(error);
+    setWalletStatus('No se pudo desconectar la wallet.', true);
+  }
+}
 function setWalletStatus(message, isError = false) {
   const status = document.getElementById('walletStatus');
   status.textContent = message || '';
@@ -1813,12 +1830,18 @@ function shortenAddress(address) {
 function updateWalletButton() {
   const btn = document.getElementById('walletConnectBtn');
 
+  if (!btn) return;
+
   if (walletState.publicKey) {
     btn.textContent = shortenAddress(walletState.publicKey);
     btn.classList.add('connected');
+    btn.onclick = disconnectWallet;
+    btn.title = 'Desconectar wallet';
   } else {
     btn.textContent = 'Conectar';
     btn.classList.remove('connected');
+    btn.onclick = openWalletModal;
+    btn.title = 'Conectar wallet';
   }
 }
 
