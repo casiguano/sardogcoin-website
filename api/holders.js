@@ -13,8 +13,12 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    if (!data.success) {
-      return res.status(500).json({ success: false });
+    if (!response.ok || !data.success) {
+      return res.status(200).json({
+        success: false,
+        status: response.status,
+        data
+      });
     }
 
     return res.status(200).json({
@@ -22,6 +26,9 @@ export default async function handler(req, res) {
       holders: data.data.total
     });
   } catch (error) {
-    return res.status(500).json({ success: false });
+    return res.status(200).json({
+      success: false,
+      error: String(error)
+    });
   }
 }
