@@ -1031,7 +1031,7 @@
 
 <input type="text" id="bottomText" placeholder="Bottom text" oninput="generateMeme()" style="margin-top:10px;width:100%;padding:10px;border-radius:10px;border:none;">
 
-<button class="btn" style="margin-top:14px;" onclick="generateMeme()">Generate Meme</button>
+<button class="btn" style="margin-top:14px;" onclick="resetMeme()">GENERAR NUEVO MEME</button>
 
 <canvas id="memeCanvas" width="500" height="500" style="margin-top:20px;border-radius:16px;background:#000;"></canvas>
 
@@ -1529,7 +1529,13 @@ function generateMeme() {
   ctx.shadowBlur = 0;
 }
 }  
-
+    
+function resetMeme() {
+  document.getElementById("topText").value = "";
+  document.getElementById("bottomText").value = "";
+  generateMeme();
+}
+    
 function downloadMeme() {
   const canvas = document.getElementById("memeCanvas");
   const link = document.createElement("a");
