@@ -1400,7 +1400,7 @@ function drawMemeText(ctx, text, x, y, maxWidth, fontSize) {
   let lines = [];
   let currentLine = "";
 
-  ctx.font = bold ${fontSize}px Impact, Arial Black, sans-serif;
+  ctx.font = "bold " + fontSize + "px Impact, Arial Black, sans-serif";
 
   for (let i = 0; i < words.length; i++) {
     const testLine = currentLine ? currentLine + " " + words[i] : words[i];
