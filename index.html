@@ -1395,40 +1395,60 @@ memeImg.onerror = function () {
 
 memeImg.src = "SARDOG.jpg";
 
-function drawMemeText(ctx, text, x, y, maxWidth, fontSize) {
+function drawMemeText(ctx, text, x, y, maxWidth, startFontSize) {
   const words = text.toUpperCase().split(" ");
+  let fontSize = startFontSize;
   let lines = [];
-  let currentLine = "";
 
-  ctx.font = "bold " + fontSize + "px Impact, Arial Black, sans-serif";
+  function buildLines(size) {
+    ctx.font = "bold " + size + "px Impact, Arial Black, sans-serif";
+    let testLines = [];
+    let currentLine = "";
 
-  for (let i = 0; i < words.length; i++) {
-    const testLine = currentLine ? currentLine + " " + words[i] : words[i];
-    const testWidth = ctx.measureText(testLine).width;
+    for (let i = 0; i < words.length; i++) {
+      const testLine = currentLine ? currentLine + " " + words[i] : words[i];
+      const testWidth = ctx.measureText(testLine).width;
 
-    if (testWidth > maxWidth && currentLine) {
-      lines.push(currentLine);
-      currentLine = words[i];
-    } else {
-      currentLine = testLine;
+      if (testWidth > maxWidth && currentLine) {
+        testLines.push(currentLine);
+        currentLine = words[i];
+      } else {
+        currentLine = testLine;
+      }
     }
+
+    if (currentLine) testLines.push(currentLine);
+    return testLines;
   }
 
-  if (currentLine) lines.push(currentLine);
+  lines = buildLines(fontSize);
 
-  const lineHeight = fontSize + 6;
+  while ((lines.length > 2 || lines.some(line => ctx.measureText(line).width > maxWidth)) && fontSize > 24) {
+    fontSize -= 2;
+    lines = buildLines(fontSize);
+  }
+
+  const lineHeight = fontSize + 8;
 
   lines.forEach((line, index) => {
     const lineY = y + index * lineHeight;
-    ctx.strokeStyle = "black";
-    ctx.lineWidth = 6;
-    ctx.fillStyle = "white";
+
+    ctx.font = "bold " + fontSize + "px Impact, Arial Black, sans-serif";
     ctx.textAlign = "center";
+    ctx.lineJoin = "round";
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 4;
+    ctx.fillStyle = "white";
+    ctx.shadowColor = "rgba(0,0,0,0.35)";
+    ctx.shadowBlur = 4;
+
     ctx.strokeText(line, x, lineY);
     ctx.fillText(line, x, lineY);
   });
-}
 
+  ctx.shadowBlur = 0;
+  return { fontSize, linesCount: lines.length };
+}
 function generateMeme() {
   const canvas = document.getElementById("memeCanvas");
   const ctx = canvas.getContext("2d");
@@ -1450,43 +1470,18 @@ function generateMeme() {
   const bottom = document.getElementById("bottomText").value.trim();
 
   if (top) {
-    drawMemeText(ctx, top, canvas.width / 2, 52, 440, 42);
+    drawMemeText(ctx, top, canvas.width / 2, 50, 420, 40);
   }
 
   if (bottom) {
-    const words = bottom.toUpperCase().split(" ");
-    let lines = [];
-    let currentLine = "";
-    ctx.font = "bold 42px Impact, Arial Black, sans-serif";
+  const result = drawMemeText(ctx, bottom, canvas.width / 2, 0, 420, 40);
+  const lineHeight = result.fontSize + 8;
+  const totalHeight = result.linesCount * lineHeight;
+  const startY = canvas.height - 22 - totalHeight + lineHeight;
 
-    for (let i = 0; i < words.length; i++) {
-      const testLine = currentLine ? currentLine + " " + words[i] : words[i];
-      const testWidth = ctx.measureText(testLine).width;
-
-      if (testWidth > 440 && currentLine) {
-        lines.push(currentLine);
-        currentLine = words[i];
-      } else {
-        currentLine = testLine;
-      }
-    }
-
-    if (currentLine) lines.push(currentLine);
-
-    const lineHeight = 48;
-    const startY = canvas.height - 20 - ((lines.length - 1) * lineHeight);
-
-    lines.forEach((line, index) => {
-      const y = startY + index * lineHeight;
-      ctx.strokeStyle = "black";
-      ctx.lineWidth = 6;
-      ctx.fillStyle = "white";
-      ctx.textAlign = "center";
-      ctx.strokeText(line, canvas.width / 2, y);
-      ctx.fillText(line, canvas.width / 2, y);
-    });
-  }
+  drawMemeText(ctx, bottom, canvas.width / 2, startY, 420, 40);
 }
+}  
 
 function downloadMeme() {
   const canvas = document.getElementById("memeCanvas");
