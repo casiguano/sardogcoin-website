@@ -729,10 +729,12 @@
       font-size: 1rem;
       padding: 14px 22px;
       min-height: 56px;
+      min-width: 196px;
       border-radius: 18px;
       cursor: pointer;
       box-shadow: 0 14px 34px rgba(0,255,136,0.22);
-      transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease, background 0.18s ease;
+      white-space: nowrap;
     }
 
     .wallet-connect-btn:hover {
@@ -741,6 +743,7 @@
     }
 
     .wallet-connect-btn.connected {
+      min-width: 170px;
       background: rgba(255,255,255,0.08);
       color: #ffffff;
       border-color: rgba(255,255,255,0.14);
@@ -764,7 +767,7 @@
     }
 
     .wallet-panel {
-      width: min(460px, 100%);
+      width: min(430px, 100%);
       background: linear-gradient(180deg, rgba(14,18,16,0.98), rgba(8,11,10,0.98));
       border: 1px solid rgba(255,255,255,0.10);
       border-radius: 28px;
@@ -816,12 +819,11 @@
       background: rgba(255,255,255,0.05);
       color: #fff;
       border-radius: 18px;
-      padding: 16px;
+      padding: 14px 16px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+      gap: 14px;
       transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
       text-align: left;
     }
@@ -832,15 +834,111 @@
       background: rgba(0,255,136,0.08);
     }
 
-    .wallet-option strong {
-      display: block;
-      font-size: 1.05rem;
-      margin-bottom: 4px;
+    .wallet-option-main {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
     }
 
-    .wallet-option span {
-      color: var(--muted);
-      font-size: 0.92rem;
+    .wallet-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      flex: 0 0 auto;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.24);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .wallet-logo::before,
+    .wallet-logo::after {
+      content: "";
+      position: absolute;
+    }
+
+    .wallet-logo.phantom {
+      background: linear-gradient(135deg, #8f73ff 0%, #4a2bff 100%);
+    }
+
+    .wallet-logo.phantom::before {
+      width: 22px;
+      height: 18px;
+      left: 13px;
+      top: 12px;
+      border: 3px solid #fff;
+      border-bottom: none;
+      border-radius: 12px 12px 6px 6px;
+    }
+
+    .wallet-logo.phantom::after {
+      width: 18px;
+      height: 6px;
+      left: 15px;
+      bottom: 10px;
+      background: #fff;
+      border-radius: 999px;
+      box-shadow: 0 -8px 0 0 rgba(255,255,255,0.95);
+      opacity: 0.96;
+    }
+
+    .wallet-logo.solflare {
+      background: linear-gradient(180deg, #0e0f18 0%, #10141f 100%);
+    }
+
+    .wallet-logo.solflare::before {
+      width: 24px;
+      height: 24px;
+      left: 12px;
+      top: 12px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #ffd66b 0%, #ff9245 42%, #ff4d78 78%, rgba(255,77,120,0.1) 100%);
+    }
+
+    .wallet-logo.solflare::after {
+      width: 10px;
+      height: 10px;
+      right: 10px;
+      top: 9px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 0 10px rgba(255,255,255,0.55);
+    }
+
+    .wallet-logo.backpack {
+      background: linear-gradient(180deg, #17191d 0%, #0d0f12 100%);
+    }
+
+    .wallet-logo.backpack::before {
+      width: 24px;
+      height: 16px;
+      left: 12px;
+      top: 16px;
+      border: 3px solid #ffffff;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      border-bottom-left-radius: 6px;
+      border-bottom-right-radius: 6px;
+      background: transparent;
+    }
+
+    .wallet-logo.backpack::after {
+      width: 10px;
+      height: 6px;
+      left: 19px;
+      top: 10px;
+      border: 3px solid #ffffff;
+      border-bottom: none;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      background: transparent;
+    }
+
+    .wallet-name {
+      font-size: 1.02rem;
+      font-weight: 800;
+      letter-spacing: 0.2px;
     }
 
     .wallet-status {
@@ -900,7 +998,7 @@
   
 
   <div class="wallet-topbar">
-    <button class="wallet-connect-btn" id="walletConnectBtn" onclick="openWalletModal()">Conectar</button>
+    <button class="wallet-connect-btn" id="walletConnectBtn" onclick="openWalletModal()">Conectar billetera</button>
   </div>
 
   <div class="wallet-modal" id="walletModal">
@@ -915,27 +1013,24 @@
 
       <div class="wallet-options">
         <button class="wallet-option" onclick="connectWallet('phantom')">
-          <div>
-            <strong>Phantom</strong>
-            <span>La más popular para Solana.</span>
+          <div class="wallet-option-main">
+            <span class="wallet-logo phantom" aria-hidden="true"></span>
+            <span class="wallet-name">Phantom</span>
           </div>
-          <div>→</div>
         </button>
 
         <button class="wallet-option" onclick="connectWallet('solflare')">
-          <div>
-            <strong>Solflare</strong>
-            <span>Muy usada en desktop y móvil.</span>
+          <div class="wallet-option-main">
+            <span class="wallet-logo solflare" aria-hidden="true"></span>
+            <span class="wallet-name">Solflare</span>
           </div>
-          <div>→</div>
         </button>
 
         <button class="wallet-option" onclick="connectWallet('backpack')">
-          <div>
-            <strong>Backpack</strong>
-            <span>Popular entre usuarios activos de Solana.</span>
+          <div class="wallet-option-main">
+            <span class="wallet-logo backpack" aria-hidden="true"></span>
+            <span class="wallet-name">Backpack</span>
           </div>
-          <div>→</div>
         </button>
       </div>
 
@@ -1825,7 +1920,9 @@ setInterval(loadHolders, 30000);
 <script>
 const RPC_ENDPOINTS = [
   'https://api.mainnet-beta.solana.com',
-  'https://solana-rpc.publicnode.com'
+  'https://api.mainnet.solana.com',
+  'https://solana-rpc.publicnode.com',
+  'https://rpc.ankr.com/solana'
 ];
 const WALLET_STORAGE_KEY = 'sardog_last_wallet';
 
@@ -1877,11 +1974,11 @@ async function disconnectWallet() {
 
     saveWalletPreference(null);
     updateWalletButton();
-    setWalletStatus('Wallet desconectada.');
-    showHolderBanner('Wallet desconectada. Reconecta para verificar si ya formas parte del pack de SARDOG.', 'warning');
+    setWalletStatus('Wallet disconnected.');
+    showHolderBanner('Wallet disconnected. Reconnect to verify whether you are already part of the SARDOG pack.', 'warning');
   } catch (error) {
     console.error(error);
-    setWalletStatus('No se pudo desconectar la wallet.', true);
+    setWalletStatus('Could not disconnect the wallet.', true);
   }
 }
 
@@ -1904,12 +2001,12 @@ function updateWalletButton() {
     btn.textContent = shortenAddress(walletState.publicKey);
     btn.classList.add('connected');
     btn.onclick = disconnectWallet;
-    btn.title = 'Desconectar wallet';
+    btn.title = 'Disconnect wallet';
   } else {
-    btn.textContent = 'Conectar';
+    btn.textContent = 'Conectar billetera';
     btn.classList.remove('connected');
     btn.onclick = openWalletModal;
-    btn.title = 'Conectar wallet';
+    btn.title = 'Conectar billetera';
   }
 }
 
@@ -1953,8 +2050,8 @@ function attachWalletListeners(provider, walletName) {
       walletState.holderCheckedAt = null;
       saveWalletPreference(null);
       updateWalletButton();
-      setWalletStatus('Wallet desconectada.');
-      showHolderBanner('Wallet desconectada. Reconecta para verificar si ya formas parte del pack de SARDOG.', 'warning');
+      setWalletStatus('Wallet disconnected.');
+      showHolderBanner('Wallet disconnected. Reconnect to verify whether you are already part of the SARDOG pack.', 'warning');
     });
 
     provider.on('accountChanged', (publicKey) => {
@@ -1969,8 +2066,8 @@ function attachWalletListeners(provider, walletName) {
         walletState.holderCheckedAt = null;
         saveWalletPreference(null);
         updateWalletButton();
-        setWalletStatus('Wallet desconectada.');
-        showHolderBanner('Wallet desconectada. Reconecta para verificar si ya formas parte del pack de SARDOG.', 'warning');
+        setWalletStatus('Wallet disconnected.');
+        showHolderBanner('Wallet disconnected. Reconnect to verify whether you are already part of the SARDOG pack.', 'warning');
         return;
       }
 
@@ -1979,7 +2076,7 @@ function attachWalletListeners(provider, walletName) {
       walletState.walletName = walletName;
       saveWalletPreference(walletName);
       updateWalletButton();
-      setWalletStatus('Wallet activa: ' + shortenAddress(nextKey));
+      setWalletStatus('Active wallet: ' + shortenAddress(nextKey));
       verifySardogHolder(nextKey);
     });
   }
@@ -1991,16 +2088,20 @@ async function rpcRequest(method, params) {
   let lastError = null;
 
   for (const endpoint of RPC_ENDPOINTS) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5500);
+
     try {
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           jsonrpc: '2.0',
-          id: Date.now(),
+          id: Date.now() + Math.floor(Math.random() * 1000),
           method,
           params
-        })
+        }),
+        signal: controller.signal
       });
 
       if (!response.ok) {
@@ -2013,13 +2114,15 @@ async function rpcRequest(method, params) {
         throw new Error(json.error.message || 'RPC error');
       }
 
+      clearTimeout(timeoutId);
       return json.result;
     } catch (error) {
+      clearTimeout(timeoutId);
       lastError = error;
     }
   }
 
-  throw lastError || new Error('No se pudo contactar el RPC de Solana.');
+  throw lastError || new Error('Could not reach a Solana RPC endpoint.');
 }
 
 async function verifySardogHolder(ownerAddress) {
@@ -2028,7 +2131,7 @@ async function verifySardogHolder(ownerAddress) {
     return;
   }
 
-  showHolderBanner('Verificando si esta wallet tiene SARDOG...', 'warning');
+  showHolderBanner('Checking whether this wallet holds SARDOG...', 'warning');
 
   try {
     const result = await rpcRequest('getTokenAccountsByOwner', [
@@ -2051,15 +2154,15 @@ async function verifySardogHolder(ownerAddress) {
     walletState.holderCheckedAt = Date.now();
 
     if (totalAmount > 0) {
-      showHolderBanner('SARDOG holder detected 🐕 Welcome to the pack. Balance detectado: ' + totalAmount.toLocaleString('en-US', { maximumFractionDigits: 4 }) + ' SARDOG.', 'success');
-      setWalletStatus('Wallet conectada: ' + shortenAddress(ownerAddress) + ' • Holder verificado');
+      showHolderBanner('SARDOG holder detected 🐕 Welcome to the pack. Detected balance: ' + totalAmount.toLocaleString('en-US', { maximumFractionDigits: 4 }) + ' SARDOG.', 'success');
+      setWalletStatus('Wallet connected: ' + shortenAddress(ownerAddress) + ' • Holder verified');
     } else {
-      showHolderBanner('Wallet conectada, pero todavía no detecto SARDOG en esta dirección. Time to fix that, pack.', 'warning');
-      setWalletStatus('Wallet conectada: ' + shortenAddress(ownerAddress));
+      showHolderBanner('Wallet connected, but no SARDOG was detected in this address yet. Time to fix that, pack.', 'warning');
+      setWalletStatus('Wallet connected: ' + shortenAddress(ownerAddress));
     }
   } catch (error) {
     console.error(error);
-    showHolderBanner('No pude verificar ahora mismo si la wallet tiene SARDOG. La conexión está bien, pero el RPC de Solana no respondió.', 'error');
+    showHolderBanner('Could not verify right now whether this wallet holds SARDOG. Wallet connection is fine, but none of the Solana RPC endpoints responded.', 'error');
   }
 }
 
@@ -2068,7 +2171,7 @@ async function connectWallet(walletName, options = {}) {
 
   if (!provider) {
     if (!options.silent) {
-      setWalletStatus('No encontré ' + walletName + ' en este dispositivo. Abriendo su web oficial...');
+      setWalletStatus('I could not find ' + walletName + ' on this device. Opening the official website...');
       installWallet(walletName);
     }
     return false;
@@ -2089,7 +2192,7 @@ async function connectWallet(walletName, options = {}) {
         : { method: 'connect' };
       response = await provider.request(requestPayload);
     } else {
-      throw new Error('Esta wallet no expone un método de conexión compatible.');
+      throw new Error('This wallet does not expose a compatible connection method.');
     }
 
     const publicKey = response?.publicKey?.toString?.()
@@ -2098,7 +2201,7 @@ async function connectWallet(walletName, options = {}) {
       || '';
 
     if (!publicKey) {
-      throw new Error('No se recibió una public key válida.');
+      throw new Error('No valid public key was received.');
     }
 
     walletState.provider = provider;
@@ -2108,14 +2211,14 @@ async function connectWallet(walletName, options = {}) {
     saveWalletPreference(walletName);
     attachWalletListeners(provider, walletName);
     updateWalletButton();
-    setWalletStatus('Wallet conectada: ' + shortenAddress(publicKey));
+    setWalletStatus('Wallet connected: ' + shortenAddress(publicKey));
     closeWalletModal();
     await verifySardogHolder(publicKey);
     return true;
   } catch (error) {
     if (!options.silent) {
       console.error(error);
-      setWalletStatus('No se pudo conectar la wallet. El usuario canceló o la wallet no respondió.', true);
+      setWalletStatus('Could not connect the wallet. The user canceled or the wallet did not respond.', true);
     }
     return false;
   }
@@ -2124,18 +2227,18 @@ async function connectWallet(walletName, options = {}) {
 async function tryAutoReconnect() {
   const lastWallet = localStorage.getItem(WALLET_STORAGE_KEY);
   if (!lastWallet) {
-    showHolderBanner('Conecta tu wallet para verificar automáticamente si ya eres holder de SARDOG.', 'warning');
+    showHolderBanner('Connect your wallet to automatically verify whether you already hold SARDOG.', 'warning');
     return;
   }
 
-  setWalletStatus('Intentando reconectar con ' + lastWallet + '...');
+  setWalletStatus('Trying to reconnect with ' + lastWallet + '...');
   const connected = await connectWallet(lastWallet, { silent: true });
 
   if (!connected) {
     saveWalletPreference(null);
     updateWalletButton();
-    setWalletStatus('Conecta tu wallet para entrar al pack de SARDOG.');
-    showHolderBanner('Conecta tu wallet para verificar automáticamente si ya eres holder de SARDOG.', 'warning');
+    setWalletStatus('Connect your wallet to join the SARDOG pack.');
+    showHolderBanner('Connect your wallet to automatically verify whether you already hold SARDOG.', 'warning');
   }
 }
 
@@ -2154,7 +2257,7 @@ document.addEventListener('keydown', function(event) {
 
 updateWalletButton();
 tryAutoReconnect();
-</script></script>
+</script>
 
 </body>
 </html>
