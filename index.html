@@ -709,10 +709,207 @@
         height: 240px;
       }
     }
+
+
+    .wallet-topbar {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .wallet-connect-btn {
+      border: 1px solid rgba(255,255,255,0.10);
+      background: linear-gradient(135deg, #62ffbe 0%, #2df5a2 100%);
+      color: #07110c;
+      font-weight: 800;
+      font-size: 1rem;
+      padding: 14px 22px;
+      min-height: 56px;
+      border-radius: 18px;
+      cursor: pointer;
+      box-shadow: 0 14px 34px rgba(0,255,136,0.22);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+    }
+
+    .wallet-connect-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(0,255,136,0.28);
+    }
+
+    .wallet-connect-btn.connected {
+      background: rgba(255,255,255,0.08);
+      color: #ffffff;
+      border-color: rgba(255,255,255,0.14);
+      box-shadow: 0 14px 34px rgba(0,0,0,0.24);
+    }
+
+    .wallet-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      padding: 18px;
+      background: rgba(0,0,0,0.62);
+      backdrop-filter: blur(10px);
+    }
+
+    .wallet-modal.active {
+      display: flex;
+    }
+
+    .wallet-panel {
+      width: min(460px, 100%);
+      background: linear-gradient(180deg, rgba(14,18,16,0.98), rgba(8,11,10,0.98));
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.42);
+      text-align: left;
+    }
+
+    .wallet-panel h3 {
+      margin: 0 0 8px;
+      font-size: 1.5rem;
+      color: var(--text);
+    }
+
+    .wallet-panel p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .wallet-close {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    .wallet-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 6px;
+    }
+
+    .wallet-options {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .wallet-option {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      border-radius: 18px;
+      padding: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+      text-align: left;
+    }
+
+    .wallet-option:hover {
+      transform: translateY(-1px);
+      border-color: rgba(0,255,136,0.30);
+      background: rgba(0,255,136,0.08);
+    }
+
+    .wallet-option strong {
+      display: block;
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+    }
+
+    .wallet-option span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .wallet-status {
+      margin-top: 14px;
+      min-height: 22px;
+      color: var(--green);
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .wallet-note {
+      margin-top: 16px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
   </style>
 </head>
 <body>
   <canvas id="networkCanvas"></canvas>
+
+  
+
+  <div class="wallet-topbar">
+    <button class="wallet-connect-btn" id="walletConnectBtn" onclick="openWalletModal()">Conectar</button>
+  </div>
+
+  <div class="wallet-modal" id="walletModal">
+    <div class="wallet-panel">
+      <div class="wallet-head">
+        <div>
+          <h3>Conectar billetera</h3>
+          <p>Elige una wallet de Solana para entrar al pack de SARDOG.</p>
+        </div>
+        <button class="wallet-close" onclick="closeWalletModal()">×</button>
+      </div>
+
+      <div class="wallet-options">
+        <button class="wallet-option" onclick="connectWallet('phantom')">
+          <div>
+            <strong>Phantom</strong>
+            <span>La más popular para Solana.</span>
+          </div>
+          <div>→</div>
+        </button>
+
+        <button class="wallet-option" onclick="connectWallet('solflare')">
+          <div>
+            <strong>Solflare</strong>
+            <span>Muy usada en desktop y móvil.</span>
+          </div>
+          <div>→</div>
+        </button>
+
+        <button class="wallet-option" onclick="connectWallet('backpack')">
+          <div>
+            <strong>Backpack</strong>
+            <span>Popular entre usuarios activos de Solana.</span>
+          </div>
+          <div>→</div>
+        </button>
+      </div>
+
+      <div class="wallet-status" id="walletStatus"></div>
+      <div class="wallet-note">
+        Si la wallet no está instalada, el botón abrirá la página oficial para instalarla o abrirla.
+      </div>
+    </div>
+  </div>
 
   <div class="container">
     <section class="hero">
@@ -1586,5 +1783,125 @@ loadHolders();
 setInterval(loadHolders, 30000);
 
 </script>
+
+
+<script>
+const walletState = {
+  provider: null,
+  publicKey: null,
+  walletName: null
+};
+
+function openWalletModal() {
+  document.getElementById('walletModal').classList.add('active');
+}
+
+function closeWalletModal() {
+  document.getElementById('walletModal').classList.remove('active');
+}
+
+function setWalletStatus(message, isError = false) {
+  const status = document.getElementById('walletStatus');
+  status.textContent = message || '';
+  status.style.color = isError ? '#ff8f8f' : 'var(--green)';
+}
+
+function shortenAddress(address) {
+  return address ? address.slice(0, 4) + '...' + address.slice(-4) : '';
+}
+
+function updateWalletButton() {
+  const btn = document.getElementById('walletConnectBtn');
+
+  if (walletState.publicKey) {
+    btn.textContent = shortenAddress(walletState.publicKey);
+    btn.classList.add('connected');
+  } else {
+    btn.textContent = 'Conectar';
+    btn.classList.remove('connected');
+  }
+}
+
+function detectWalletProvider(walletName) {
+  if (walletName === 'phantom') {
+    if (window.phantom?.solana?.isPhantom) return window.phantom.solana;
+    if (window.solana?.isPhantom) return window.solana;
+  }
+
+  if (walletName === 'solflare') {
+    if (window.solflare?.isSolflare) return window.solflare;
+    if (window.solana?.isSolflare) return window.solana;
+  }
+
+  if (walletName === 'backpack') {
+    if (window.backpack?.solana?.isBackpack) return window.backpack.solana;
+    if (window.xnft?.solana?.isBackpack) return window.xnft.solana;
+  }
+
+  return null;
+}
+
+function installWallet(walletName) {
+  const links = {
+    phantom: 'https://phantom.app/',
+    solflare: 'https://solflare.com/',
+    backpack: 'https://backpack.app/'
+  };
+
+  window.open(links[walletName], '_blank');
+}
+
+async function connectWallet(walletName) {
+  const provider = detectWalletProvider(walletName);
+
+  if (!provider) {
+    setWalletStatus('No encontré ' + walletName + ' en este dispositivo. Abriendo su web oficial...');
+    installWallet(walletName);
+    return;
+  }
+
+  try {
+    setWalletStatus('Conectando con ' + walletName + '...');
+
+    let response;
+    if (typeof provider.connect === 'function') {
+      response = await provider.connect();
+    } else if (typeof provider.request === 'function') {
+      response = await provider.request({ method: 'connect' });
+    } else {
+      throw new Error('Esta wallet no expone un método de conexión compatible.');
+    }
+
+    const publicKey = response?.publicKey?.toString?.() || provider.publicKey?.toString?.() || '';
+
+    walletState.provider = provider;
+    walletState.publicKey = publicKey;
+    walletState.walletName = walletName;
+
+    updateWalletButton();
+    setWalletStatus('Wallet conectada: ' + shortenAddress(publicKey));
+    closeWalletModal();
+  } catch (error) {
+    console.error(error);
+    setWalletStatus('No se pudo conectar la wallet. El usuario canceló o la wallet no respondió.', true);
+  }
+}
+
+window.addEventListener('click', function(event) {
+  const modal = document.getElementById('walletModal');
+  if (event.target === modal) {
+    closeWalletModal();
+  }
+});
+
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    closeWalletModal();
+  }
+});
+
+updateWalletButton();
+</script>
+
 </body>
 </html>
