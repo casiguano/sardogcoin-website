@@ -944,7 +944,7 @@
       </div>
 
       <div class="wallet-options">
-      <button class="wallet-option" onclick="window.connectWallet('phantom')">
+     <button class="wallet-option" onclick="alert(typeof window.connectWallet); if (window.connectWallet) window.connectWallet('phantom')">
           <div class="wallet-option-main">
             <span class="wallet-logo phantom" aria-hidden="true"></span>
             <span class="wallet-name">Phantom</span>
