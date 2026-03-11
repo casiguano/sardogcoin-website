@@ -1946,19 +1946,18 @@ function updateWalletButton() {
 }
 
 function detectWalletProvider(walletName) {
-  if (walletName === 'phantom') {
-    if (window.phantom?.solana?.isPhantom) return window.phantom.solana;
-    if (window.solana?.isPhantom) return window.solana;
+  if (!window.solana) return null;
+
+  if (walletName === 'phantom' && window.solana.isPhantom) {
+    return window.solana;
   }
 
-  if (walletName === 'solflare') {
-    if (window.solflare?.isSolflare) return window.solflare;
-    if (window.solana?.isSolflare) return window.solana;
+  if (walletName === 'solflare' && window.solflare) {
+    return window.solflare;
   }
 
-  if (walletName === 'backpack') {
-    if (window.backpack?.solana?.isBackpack) return window.backpack.solana;
-    if (window.xnft?.solana?.isBackpack) return window.xnft.solana;
+  if (walletName === 'backpack' && window.backpack) {
+    return window.backpack;
   }
 
   return null;
