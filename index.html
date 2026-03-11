@@ -2122,7 +2122,8 @@ try {
 
 } catch (error) {
   console.error(error);
-    showHolderBanner('Could not verify right now whether this wallet holds SARDOG. Wallet connection is fine, but the current Solana RPC providers did not respond in time.', 'error');
+   showHolderBanner('', 'warning');
+  setWalletStatus('Wallet connected: ' + shortenAddress(ownerAddress));
   }
 }
 
