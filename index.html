@@ -1851,10 +1851,9 @@ setInterval(loadHolders, 30000);
 
 <script>
 const RPC_ENDPOINTS = [
-  'https://api.mainnet-beta.solana.com',
+  'https://rpc.ankr.com/solana',
   'https://solana.public-rpc.com',
-  'https://mainnet.helius-rpc.com/?api-key=demo',
-  'https://rpc.ankr.com/solana'
+  'https://api.mainnet-beta.solana.com'
 ];
 const WALLET_STORAGE_KEY = 'sardog_last_wallet';
 const TOKEN_PROGRAM_IDS = [
@@ -2025,7 +2024,7 @@ async function rpcRequest(method, params) {
 
   for (const endpoint of RPC_ENDPOINTS) {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
+    const timeoutId = setTimeout(() => controller.abort(), 25000);
 
     try {
       const response = await fetch(endpoint, {
