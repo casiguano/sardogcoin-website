@@ -944,7 +944,7 @@
       </div>
 
       <div class="wallet-options">
-       <button class="wallet-option" onclick="alert('phantom click ok'); window.connectWallet('phantom')">
+      <button class="wallet-option" onclick="window.connectWallet('phantom')">
           <div class="wallet-option-main">
             <span class="wallet-logo phantom" aria-hidden="true"></span>
             <span class="wallet-name">Phantom</span>
@@ -2136,7 +2136,9 @@ async function verifySardogHolder(ownerAddress) {
   }
 }
 async function connectWallet(walletName, options = {}) {
+  alert('connectWallet entered: ' + walletName);
   const provider = detectWalletProvider(walletName);
+  alert(provider ? 'provider detected' : 'provider NOT detected');
 
   if (!provider) {
     if (!options.silent) {
