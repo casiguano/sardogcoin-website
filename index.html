@@ -944,21 +944,21 @@
       </div>
 
       <div class="wallet-options">
-    <button class="wallet-option" id="phantomBtn" type="button">
+   <button class="wallet-option" onclick="connectWallet('phantom')">
           <div class="wallet-option-main">
             <span class="wallet-logo phantom" aria-hidden="true"></span>
             <span class="wallet-name">Phantom</span>
           </div>
         </button>
 
-        <button class="wallet-option" id="solflareBtn" type="button">
+       <button class="wallet-option" onclick="connectWallet('solflare')">
           <div class="wallet-option-main">
             <span class="wallet-logo solflare" aria-hidden="true"></span>
             <span class="wallet-name">Solflare</span>
           </div>
         </button>
 
-       <button class="wallet-option" id="backpackBtn" type="button">
+       <button class="wallet-option" onclick="connectWallet('backpack')">
           <div class="wallet-option-main">
             <span class="wallet-logo backpack" aria-hidden="true"></span>
             <span class="wallet-name">Backpack</span>
@@ -1946,18 +1946,19 @@ function updateWalletButton() {
 }
 
 function detectWalletProvider(walletName) {
-  if (!window.solana) return null;
-
-  if (walletName === 'phantom' && window.solana.isPhantom) {
-    return window.solana;
+  if (walletName === 'phantom') {
+    if (window.phantom?.solana?.isPhantom) return window.phantom.solana;
+    if (window.solana?.isPhantom) return window.solana;
   }
 
-  if (walletName === 'solflare' && window.solflare) {
-    return window.solflare;
+  if (walletName === 'solflare') {
+    if (window.solflare?.isSolflare) return window.solflare;
+    if (window.solana?.isSolflare) return window.solana;
   }
 
-  if (walletName === 'backpack' && window.backpack) {
-    return window.backpack;
+  if (walletName === 'backpack') {
+    if (window.backpack?.solana?.isBackpack) return window.backpack.solana;
+    if (window.xnft?.solana?.isBackpack) return window.xnft.solana;
   }
 
   return null;
@@ -2191,30 +2192,6 @@ async function connectWallet(walletName, options = {}) {
     return false;
   }
 }
-window.connectWallet = connectWallet;
-document.addEventListener('DOMContentLoaded', function () {
-  const phantomBtn = document.getElementById('phantomBtn');
-  const solflareBtn = document.getElementById('solflareBtn');
-  const backpackBtn = document.getElementById('backpackBtn');
-
-  if (phantomBtn) {
-    phantomBtn.addEventListener('click', function () {
-      connectWallet('phantom');
-    });
-  }
-
-  if (solflareBtn) {
-    solflareBtn.addEventListener('click', function () {
-      connectWallet('solflare');
-    });
-  }
-
-  if (backpackBtn) {
-    backpackBtn.addEventListener('click', function () {
-      connectWallet('backpack');
-    });
-  }
-});
   
 async function tryAutoReconnect() {
   const lastWallet = localStorage.getItem(WALLET_STORAGE_KEY);
