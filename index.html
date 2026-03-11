@@ -930,7 +930,7 @@
   
 
   <div class="wallet-topbar">
-    <button class="wallet-connect-btn" id="walletConnectBtn" onclick="openWalletModal()">Connect Wallet</button>
+    <button class="wallet-connect-btn" id="walletConnectBtn" type="button" onclick="openWalletModal()">Connect Wallet</button>
   </div>
 
   <div class="wallet-modal" id="walletModal">
@@ -1872,11 +1872,11 @@ const walletState = {
 function openWalletModal() {
   document.getElementById('walletModal').classList.add('active');
 }
-
+window.openWalletModal = openWalletModal;
 function closeWalletModal() {
   document.getElementById('walletModal').classList.remove('active');
 }
-
+window.closeWalletModal = closeWalletModal;
 function saveWalletPreference(walletName) {
   if (walletName) {
     localStorage.setItem(WALLET_STORAGE_KEY, walletName);
