@@ -925,12 +925,12 @@
   </style>
 </head>
 <body>
-  <canvas id="networkCanvas"></canvas>
+  <canvas id="networkCanvas" style="pointer-events: none;"></canvas>
 
   
 
   <div class="wallet-topbar">
-    <button class="wallet-connect-btn" id="walletConnectBtn" type="button" onclick="openWalletModal()">Connect Wallet</button>
+    <button class="wallet-connect-btn" id="walletConnectBtn" type="button" onclick="document.getElementById('walletModal').classList.add('active'); return false;">Connect Wallet</button>
   </div>
 
   <div class="wallet-modal" id="walletModal">
