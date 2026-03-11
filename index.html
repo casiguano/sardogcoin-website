@@ -2107,36 +2107,34 @@ async function verifySardogHolder(ownerAddress) {
 
   showHolderBanner('Checking whether this wallet holds SARDOG...', 'warning');
 
-try {
-  const response = await fetch(/api/holders?wallet=${encodeURIComponent(ownerAddress)});
-  const data = await response.json();
+  try {
+    const response = await fetch(/api/holders?wallet=${encodeURIComponent(ownerAddress)});
+    const data = await response.json();
 
-  walletState.holderCheckedAt = Date.now();
+    walletState.holderCheckedAt = Date.now();
 
-  if (data.ok && data.holder) {
-    showHolderBanner(
-      'SARDOG holder detected 🐕 Welcome to the pack. Detected balance: ' +
-      Number(data.balance || 0).toLocaleString('en-US', { maximumFractionDigits: 6 })
-    );
-    setWalletStatus('Wallet connected: ' + shortenAddress(ownerAddress) + ' • Holder verified');
-  } else if (data.ok && !data.holder) {
-    showHolderBanner(
-      'Wallet connected, but no SARDOG was detected in this address yet. Time to fix that, pack.',
-      'warning'
-    );
-    setWalletStatus('Wallet connected: ' + shortenAddress(ownerAddress));
-  } else {
+    if (data.ok && data.holder) {
+      showHolderBanner(
+        'SARDOG holder detected 🐕 Welcome to the pack. Detected balance: ' +
+        Number(data.balance || 0).toLocaleString('en-US', { maximumFractionDigits: 6 })
+      );
+      setWalletStatus('Wallet connected: ' + shortenAddress(ownerAddress) + ' • Holder verified');
+    } else if (data.ok && !data.holder) {
+      showHolderBanner(
+        'Wallet connected, but no SARDOG was detected in this address yet. Time to fix that, pack.',
+        'warning'
+      );
+      setWalletStatus('Wallet connected: ' + shortenAddress(ownerAddress));
+    } else {
+      showHolderBanner('', 'warning');
+      setWalletStatus('Wallet connected: ' + shortenAddress(ownerAddress));
+    }
+  } catch (error) {
+    console.error(error);
     showHolderBanner('', 'warning');
     setWalletStatus('Wallet connected: ' + shortenAddress(ownerAddress));
   }
-
-} catch (error) {
-  console.error(error);
-   showHolderBanner('', 'warning');
-  setWalletStatus('Wallet connected: ' + shortenAddress(ownerAddress));
-  }
 }
-
 async function connectWallet(walletName, options = {}) {
   const provider = detectWalletProvider(walletName);
 
