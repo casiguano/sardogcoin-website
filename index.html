@@ -940,7 +940,7 @@
           <h3>Connect Wallet</h3>
           <p>Choose a Solana wallet to enter the SARDOG pack.</p>
         </div>
-        <button class="wallet-close" onclick="closeWalletModal()">×</button>
+       <button class="wallet-close" type="button" onclick="document.getElementById('walletModal').classList.remove('active'); return false;">×</button>
       </div>
 
       <div class="wallet-options">
@@ -2140,7 +2140,7 @@ async function verifySardogHolder(ownerAddress) {
   }
 }
 
-async function connectWalletasync function connectWallet(walletName, options = {}) {
+async function connectWallet(walletName, options = {}) {
   const provider = detectWalletProvider(walletName);
 
   if (!provider) {
