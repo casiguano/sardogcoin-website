@@ -2064,49 +2064,35 @@ async function rpcRequest(method, params) {
 async function getSardogBalance(ownerAddress) {
   let lastError = null;
 
-  try {
-    const directResult = await rpcRequest('getTokenAccountsByOwner', [
-      ownerAddress,
-      { mint: CONTRACT },
-      { encoding: 'jsonParsed' }
-    ]);
-
-    const directAccounts = directResult?.value || [];
-    const directTotal = directAccounts.reduce((sum, account) => {
-      const parsedAmount = account?.account?.data?.parsed?.info?.tokenAmount;
-      const uiAmount = Number(parsedAmount?.uiAmount ?? parsedAmount?.uiAmountString ?? 0);
-      return Number.isNaN(uiAmount) ? sum : sum + uiAmount;
-    }, 0);
-
-    return directTotal;
-  } catch (error) {
-    lastError = error;
-  }
-
-  for (const programId of TOKEN_PROGRAM_IDS) {
+  for (const endpoint of RPC_ENDPOINTS) {
     try {
-      const result = await rpcRequest('getTokenAccountsByOwner', [
-        ownerAddress,
-        { programId },
-        { encoding: 'jsonParsed' }
+      const connection = new solanaWeb3.Connection(endpoint, 'confirmed');
+      const owner = new solanaWeb3.PublicKey(ownerAddress);
+      const mint = new solanaWeb3.PublicKey(CONTRACT);
+
+      const accounts = await Promise.race([
+        connection.getParsedTokenAccountsByOwner(
+          owner,
+          { mint },
+          'confirmed'
+        ),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('RPC timeout')), 15000)
+        )
       ]);
 
-      const accounts = result?.value || [];
-      let totalAmount = 0;
-
-      for (const account of accounts) {
-        const info = account?.account?.data?.parsed?.info;
-        if (info?.mint !== CONTRACT) continue;
-        const parsedAmount = info?.tokenAmount;
-        const uiAmount = Number(parsedAmount?.uiAmount ?? parsedAmount?.uiAmountString ?? 0);
-        if (!Number.isNaN(uiAmount)) {
-          totalAmount += uiAmount;
-        }
-      }
+      const totalAmount = (accounts?.value || []).reduce((sum, account) => {
+        const parsedAmount = account?.account?.data?.parsed?.info?.tokenAmount;
+        const uiAmount = Number(
+          parsedAmount?.uiAmount ?? parsedAmount?.uiAmountString ?? 0
+        );
+        return Number.isNaN(uiAmount) ? sum : sum + uiAmount;
+      }, 0);
 
       return totalAmount;
     } catch (error) {
       lastError = error;
+      console.error('RPC failed:', endpoint, error);
     }
   }
 
