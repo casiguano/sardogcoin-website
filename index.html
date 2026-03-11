@@ -944,21 +944,21 @@
       </div>
 
       <div class="wallet-options">
-     <button class="wallet-option" onclick="alert(typeof window.connectWallet); if (window.connectWallet) window.connectWallet('phantom')">
+    <button class="wallet-option" id="phantomBtn" type="button">
           <div class="wallet-option-main">
             <span class="wallet-logo phantom" aria-hidden="true"></span>
             <span class="wallet-name">Phantom</span>
           </div>
         </button>
 
-        <button class="wallet-option" onclick="window.connectWallet('solflare')">
+        <button class="wallet-option" id="solflareBtn" type="button">
           <div class="wallet-option-main">
             <span class="wallet-logo solflare" aria-hidden="true"></span>
             <span class="wallet-name">Solflare</span>
           </div>
         </button>
 
-        <button class="wallet-option" onclick="window.connectWallet('backpack')">
+       <button class="wallet-option" id="backpackBtn" type="button">
           <div class="wallet-option-main">
             <span class="wallet-logo backpack" aria-hidden="true"></span>
             <span class="wallet-name">Backpack</span>
@@ -2136,9 +2136,7 @@ async function verifySardogHolder(ownerAddress) {
   }
 }
 async function connectWallet(walletName, options = {}) {
-  alert('connectWallet entered: ' + walletName);
   const provider = detectWalletProvider(walletName);
-  alert(provider ? 'provider detected' : 'provider NOT detected');
 
   if (!provider) {
     if (!options.silent) {
@@ -2195,6 +2193,29 @@ async function connectWallet(walletName, options = {}) {
   }
 }
 window.connectWallet = connectWallet;
+document.addEventListener('DOMContentLoaded', function () {
+  const phantomBtn = document.getElementById('phantomBtn');
+  const solflareBtn = document.getElementById('solflareBtn');
+  const backpackBtn = document.getElementById('backpackBtn');
+
+  if (phantomBtn) {
+    phantomBtn.addEventListener('click', function () {
+      connectWallet('phantom');
+    });
+  }
+
+  if (solflareBtn) {
+    solflareBtn.addEventListener('click', function () {
+      connectWallet('solflare');
+    });
+  }
+
+  if (backpackBtn) {
+    backpackBtn.addEventListener('click', function () {
+      connectWallet('backpack');
+    });
+  }
+});
   
 async function tryAutoReconnect() {
   const lastWallet = localStorage.getItem(WALLET_STORAGE_KEY);
