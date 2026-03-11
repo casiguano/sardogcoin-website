@@ -2127,7 +2127,7 @@ async function verifySardogHolder(ownerAddress) {
 
     walletState.holderCheckedAt = Date.now();
 
-    if (totalAmount > 0) {
+    if (Number(totalAmount) > 0.0000001) {
       showHolderBanner('SARDOG holder detected 🐕 Welcome to the pack. Detected balance: ' + totalAmount.toLocaleString('en-US', { maximumFractionDigits: 4 }) + ' SARDOG.', 'success');
       setWalletStatus('Wallet connected: ' + shortenAddress(ownerAddress) + ' • Holder verified');
     } else {
