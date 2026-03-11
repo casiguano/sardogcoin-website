@@ -2192,7 +2192,8 @@ async function connectWallet(walletName, options = {}) {
     return false;
   }
 }
-
+window.connectWallet = connectWallet;
+  
 async function tryAutoReconnect() {
   const lastWallet = localStorage.getItem(WALLET_STORAGE_KEY);
   if (!lastWallet) {
