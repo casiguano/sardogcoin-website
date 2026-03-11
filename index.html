@@ -2121,50 +2121,21 @@ async function verifySardogHolder(ownerAddress) {
 
   showHolderBanner('Checking whether this wallet holds SARDOG...', 'warning');
 
- try {
+try {
   const totalAmount = await getSardogBalance(ownerAddress);
-  const numericAmount = Number(totalAmount || 0);
 
   walletState.holderCheckedAt = Date.now();
 
-  if (numericAmount > 0.0000001) {
-    showHolderBanner(
-      'SARDOG holder detected 🐕 Welcome to the pack. Detected balance: ' +
-      numericAmount.toLocaleString('en-US', { maximumFractionDigits: 6 }),
-      'success'
-    );
-
-    setWalletStatus(
-      'Wallet connected: ' + shortenAddress(ownerAddress) + ' • Holder verified'
-    );
-
+  if (totalAmount > 0) {
+    showHolderBanner('SARDOG holder detected 🐕 Welcome to the pack. Detected balance: ' + totalAmount.toLocaleString('en-US', { maximumFractionDigits: 6 }));
+    setWalletStatus('Wallet connected: ' + shortenAddress(ownerAddress) + ' • Holder verified');
   } else {
-
-    showHolderBanner(
-      'Wallet connected, but no SARDOG was detected in this address yet. Time to fix that, pack.',
-      'warning'
-    );
-
-    setWalletStatus(
-      'Wallet connected: ' + shortenAddress(ownerAddress)
-    );
-
+    showHolderBanner('Wallet connected, but no SARDOG was detected in this address yet. Time to fix that, pack.', 'warning');
+    setWalletStatus('Wallet connected: ' + shortenAddress(ownerAddress));
   }
 
 } catch (error) {
-
   console.error(error);
-
-  showHolderBanner(
-    'Could not verify right now whether this wallet holds SARDOG. Wallet connection is fine, but the current Solana RPC providers did not respond in time.',
-    'error'
-  );
-
-  setWalletStatus(
-    'Wallet connected: ' + shortenAddress(ownerAddress)
-  );
-
-}
     showHolderBanner('Could not verify right now whether this wallet holds SARDOG. Wallet connection is fine, but the current Solana RPC providers did not respond in time.', 'error');
   }
 }
