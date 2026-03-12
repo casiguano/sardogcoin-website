@@ -2180,8 +2180,48 @@
       const comboEl = document.getElementById('comboValue');
       const gameOverTitle = document.getElementById('gameOverTitle');
 
-      const sardogImage = new Image();
-      sardogImage.src = 'sardog_runner_sprite_final.png';
+      const sardogSpriteSheet = new Image();
+      sardogSpriteSheet.src = 'sardog_run_cycle_4frames.png';
+      const sardogSprite = {
+        frameCount: 4,
+        frameWidth: 384,
+        frameHeight: 1024,
+        fps: 10,
+        processedCanvases: [],
+        ready: false
+      };
+
+      function buildSardogSpriteFrames() {
+        sardogSprite.processedCanvases = [];
+        for (let i = 0; i < sardogSprite.frameCount; i++) {
+          const off = document.createElement('canvas');
+          off.width = sardogSprite.frameWidth;
+          off.height = sardogSprite.frameHeight;
+          const octx = off.getContext('2d');
+          octx.drawImage(
+            sardogSpriteSheet,
+            i * sardogSprite.frameWidth, 0,
+            sardogSprite.frameWidth, sardogSprite.frameHeight,
+            0, 0,
+            sardogSprite.frameWidth, sardogSprite.frameHeight
+          );
+          const frameData = octx.getImageData(0, 0, off.width, off.height);
+          const px = frameData.data;
+          for (let p = 0; p < px.length; p += 4) {
+            const r = px[p];
+            const g = px[p + 1];
+            const b = px[p + 2];
+            if (r < 22 && g < 22 && b < 22) {
+              px[p + 3] = 0;
+            }
+          }
+          octx.putImageData(frameData, 0, 0);
+          sardogSprite.processedCanvases.push(off);
+        }
+        sardogSprite.ready = true;
+      }
+
+      sardogSpriteSheet.onload = buildSardogSpriteFrames;
 
       const world = { width: canvas.width, height: canvas.height };
       const groundY = () => world.height - 128;
@@ -2224,9 +2264,9 @@
       function resetPlayer() {
         player = {
           x: 172,
-          y: groundY() - 126,
-          width: 96,
-          height: 126,
+          y: groundY() - 94,
+          width: 148,
+          height: 94,
           velocityY: 0,
           gravity: 2500,
           jumpForce: 1000,
@@ -2234,8 +2274,9 @@
           maxJumps: 2,
           isSliding: false,
           slideTimer: 0,
-          slideHeight: 82,
-          normalHeight: 126,
+          slideHeight: 68,
+          normalHeight: 94,
+          animTime: 0,
           runBob: 0,
           invulnerable: 0
         };
@@ -2353,10 +2394,10 @@
 
       function playerRect() {
         return {
-          x: player.x + 20,
-          y: player.y + 14,
-          width: player.width - 40,
-          height: player.height - 18
+          x: player.x + 24,
+          y: player.y + 12,
+          width: player.width - 44,
+          height: player.height - 14
         };
       }
 
@@ -2372,6 +2413,7 @@
         spawnTimer += dt;
         gameSpeed += dt * 14;
         spawnInterval = Math.max(0.55, 1.08 - elapsed * 0.018);
+        player.animTime += dt;
 
         player.velocityY += player.gravity * dt;
         player.y += player.velocityY * dt;
@@ -2925,4 +2967,5 @@
   </script>
 </body>
 </html>
+
 
