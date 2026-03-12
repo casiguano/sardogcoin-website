@@ -1179,7 +1179,8 @@
       justify-content: center;
       padding: 20px;
       background: linear-gradient(180deg, rgba(4,7,6,0.10), rgba(4,7,6,0.52));
-      pointer-events: none;
+      pointer-events: auto;
+      z-index: 4;
     }
 
     .game-overlay.hidden {
@@ -1193,6 +1194,8 @@
       text-align: center;
       background: rgba(7,11,9,0.92);
       border: 1px solid rgba(255,255,255,0.10);
+      position: relative;
+      z-index: 5;
       box-shadow: 0 24px 54px rgba(0,0,0,0.42);
       pointer-events: auto;
     }
@@ -2256,6 +2259,8 @@
       function startGame(preview = false) {
         resetGame();
         state = preview ? 'preview' : 'playing';
+        isPaused = false;
+        pauseBtn.textContent = 'Pause';
         stateEl.textContent = preview ? 'Preview' : 'Running';
         startOverlay.classList.add('hidden');
         gameOverOverlay.classList.add('hidden');
@@ -2582,6 +2587,17 @@
 
       function onTouchEnd() { touchStartY = null; }
 
+      window.sardogStartRun = () => startGame(false);
+      window.sardogPreviewControls = () => startGame(true);
+      window.sardogRetryRun = () => startGame(false);
+      window.sardogBackReady = () => backToReady();
+
+      if (startBtn) startBtn.onclick = () => startGame(false);
+      if (demoBtn) demoBtn.onclick = () => startGame(true);
+      if (retryBtn) retryBtn.onclick = () => startGame(false);
+      if (resetBtn) resetBtn.onclick = () => backToReady();
+
+
       gameTouchArea.addEventListener('touchstart', onTouchStart, { passive: true });
       gameTouchArea.addEventListener('touchmove', onTouchMove, { passive: true });
       gameTouchArea.addEventListener('touchend', onTouchEnd, { passive: true });
@@ -2590,10 +2606,6 @@
       jumpHintBtn.addEventListener('click', () => {
         if (state === 'ready') startGame(false);
       });
-      startBtn.addEventListener('click', () => startGame(false));
-      demoBtn.addEventListener('click', () => startGame(true));
-      retryBtn.addEventListener('click', () => startGame(false));
-      resetBtn.addEventListener('click', backToReady);
 
       resizeGameCanvas();
       window.addEventListener('resize', resizeGameCanvas);
@@ -2891,6 +2903,7 @@
   </script>
 </body>
 </html>
+
 
 
 
