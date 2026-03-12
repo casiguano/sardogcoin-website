@@ -1272,25 +1272,73 @@
       }
 
       .game-canvas-wrap {
-        aspect-ratio: 4 / 5;
-        min-height: 520px;
+        aspect-ratio: auto;
+        min-height: 640px;
       }
 
       .game-overlay {
         align-items: flex-start;
-        padding: 12px;
+        justify-content: flex-start;
+        padding: 10px;
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
 
       .game-overlay-card {
-        padding: 18px;
-        max-height: calc(100% - 4px);
-        overflow-y: auto;
-        margin: auto 0;
+        width: 100%;
+        max-width: none;
+        min-height: 100%;
+        max-height: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 16px;
+        overflow: visible;
+        margin: 0 auto;
+      }
+
+      .game-overlay-card h3 {
+        font-size: 1.45rem;
+        margin-bottom: 8px;
+      }
+
+      .game-overlay-card p {
+        font-size: 0.96rem;
+        line-height: 1.5;
+        margin-bottom: 12px;
+      }
+
+      .game-overlay-stats {
+        gap: 8px;
+        margin: 12px 0 14px;
+      }
+
+      .game-overlay-stat {
+        padding: 10px;
+        border-radius: 16px;
+      }
+
+      .game-overlay-stat span {
+        font-size: 0.7rem;
+        margin-bottom: 6px;
+      }
+
+      .game-overlay-stat strong {
+        font-size: 1rem;
       }
 
       .game-controls {
         grid-template-columns: 1fr;
+        gap: 10px;
+        margin-top: auto;
+        padding-top: 12px;
+        position: sticky;
+        bottom: 0;
+        background: linear-gradient(180deg, rgba(7,11,9,0.02), rgba(7,11,9,0.98) 30%);
+      }
+
+      .game-btn {
+        min-height: 50px;
       }
     }
 
@@ -2701,6 +2749,7 @@
   </script>
 </body>
 </html>
+
 
 
 
