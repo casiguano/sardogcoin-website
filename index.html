@@ -2180,83 +2180,8 @@
       const comboEl = document.getElementById('comboValue');
       const gameOverTitle = document.getElementById('gameOverTitle');
 
-      const sardogSpriteSheet = new Image();
-      const sardogFallbackImage = new Image();
-      sardogSpriteSheet.src = 'sardog_run_cycle_4frames.png';
-      sardogFallbackImage.src = 'sardog_runner_sprite_final.png';
-      const sardogSprite = {
-        frameCount: 4,
-        frameWidth: 384,
-        frameHeight: 1024,
-        fps: 10,
-        processedCanvases: [],
-        ready: false,
-        usingFallback: false
-      };
-
-      function removeBlackBackground(sourceCanvas) {
-        const cleaned = document.createElement('canvas');
-        cleaned.width = sourceCanvas.width;
-        cleaned.height = sourceCanvas.height;
-        const cctx = cleaned.getContext('2d');
-        cctx.drawImage(sourceCanvas, 0, 0);
-        const frameData = cctx.getImageData(0, 0, cleaned.width, cleaned.height);
-        const px = frameData.data;
-        for (let p = 0; p < px.length; p += 4) {
-          const r = px[p];
-          const g = px[p + 1];
-          const b = px[p + 2];
-          if (r < 22 && g < 22 && b < 22) {
-            px[p + 3] = 0;
-          }
-        }
-        cctx.putImageData(frameData, 0, 0);
-        return cleaned;
-      }
-
-      function buildSardogSpriteFrames() {
-        sardogSprite.processedCanvases = [];
-        for (let i = 0; i < sardogSprite.frameCount; i++) {
-          const off = document.createElement('canvas');
-          off.width = sardogSprite.frameWidth;
-          off.height = sardogSprite.frameHeight;
-          const octx = off.getContext('2d');
-          octx.drawImage(
-            sardogSpriteSheet,
-            i * sardogSprite.frameWidth, 0,
-            sardogSprite.frameWidth, sardogSprite.frameHeight,
-            0, 0,
-            sardogSprite.frameWidth, sardogSprite.frameHeight
-          );
-          sardogSprite.processedCanvases.push(removeBlackBackground(off));
-        }
-        sardogSprite.usingFallback = false;
-        sardogSprite.ready = true;
-      }
-
-      function buildFallbackSardogFrame() {
-        const off = document.createElement('canvas');
-        off.width = sardogFallbackImage.naturalWidth || 1024;
-        off.height = sardogFallbackImage.naturalHeight || 1536;
-        const octx = off.getContext('2d');
-        octx.drawImage(sardogFallbackImage, 0, 0, off.width, off.height);
-        sardogSprite.processedCanvases = [removeBlackBackground(off)];
-        sardogSprite.frameCount = 1;
-        sardogSprite.usingFallback = true;
-        sardogSprite.ready = true;
-      }
-
-      sardogSpriteSheet.onload = buildSardogSpriteFrames;
-      sardogSpriteSheet.onerror = () => {
-        if (sardogFallbackImage.complete) {
-          buildFallbackSardogFrame();
-        }
-      };
-      sardogFallbackImage.onload = () => {
-        if (!sardogSprite.ready) {
-          buildFallbackSardogFrame();
-        }
-      };
+      const sardogImage = new Image();
+      sardogImage.src = 'sardog_runner_sprite_final.png';
 
       const world = { width: canvas.width, height: canvas.height };
       const groundY = () => world.height - 128;
@@ -2299,9 +2224,9 @@
       function resetPlayer() {
         player = {
           x: 172,
-          y: groundY() - 94,
-          width: 148,
-          height: 94,
+          y: groundY() - 126,
+          width: 96,
+          height: 126,
           velocityY: 0,
           gravity: 2500,
           jumpForce: 1000,
@@ -2309,9 +2234,8 @@
           maxJumps: 2,
           isSliding: false,
           slideTimer: 0,
-          slideHeight: 68,
-          normalHeight: 94,
-          animTime: 0,
+          slideHeight: 82,
+          normalHeight: 126,
           runBob: 0,
           invulnerable: 0
         };
@@ -2429,10 +2353,10 @@
 
       function playerRect() {
         return {
-          x: player.x + 24,
-          y: player.y + 12,
-          width: player.width - 44,
-          height: player.height - 14
+          x: player.x + 20,
+          y: player.y + 14,
+          width: player.width - 40,
+          height: player.height - 18
         };
       }
 
@@ -2448,7 +2372,6 @@
         spawnTimer += dt;
         gameSpeed += dt * 14;
         spawnInterval = Math.max(0.55, 1.08 - elapsed * 0.018);
-        player.animTime += dt;
 
         player.velocityY += player.gravity * dt;
         player.y += player.velocityY * dt;
@@ -2541,14 +2464,10 @@
         ctx.ellipse(player.x + player.width / 2, shadowY, 40, 14, 0, 0, Math.PI * 2);
         ctx.fill();
 
-        if (sardogSprite.ready && sardogSprite.processedCanvases.length) {
-          const frameIndex = sardogSprite.usingFallback
-            ? 0
-            : Math.floor(player.animTime * sardogSprite.fps) % sardogSprite.processedCanvases.length;
-          const frame = sardogSprite.processedCanvases[frameIndex];
+        if (sardogImage.complete) {
           ctx.imageSmoothingEnabled = true;
           ctx.imageSmoothingQuality = 'high';
-          ctx.drawImage(frame, player.x, player.y, player.width, player.height);
+          ctx.drawImage(sardogImage, player.x, player.y, player.width, player.height);
         } else {
           ctx.fillStyle = '#65ffc0';
           ctx.fillRect(player.x, player.y, player.width, player.height);
