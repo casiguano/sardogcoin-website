@@ -2294,6 +2294,26 @@
         gameOverOverlay.classList.remove('hidden');
       }
 
+      function togglePause() {
+        if (state === 'ready' || state === 'gameover') return;
+
+        if (state === 'paused') {
+          state = 'playing';
+          isPaused = false;
+          pauseBtn.textContent = 'Pause';
+          stateEl.textContent = 'Running';
+          previousTs = performance.now();
+          return;
+        }
+
+        if (state === 'playing' || state === 'preview') {
+          state = 'paused';
+          isPaused = true;
+          pauseBtn.textContent = 'Resume';
+          stateEl.textContent = 'Paused';
+        }
+      }
+
       function updateHud() {
         scoreEl.textContent = score.toLocaleString();
         bestEl.textContent = bestScore.toLocaleString();
@@ -2903,6 +2923,7 @@
   </script>
 </body>
 </html>
+
 
 
 
