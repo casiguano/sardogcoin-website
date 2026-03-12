@@ -1076,6 +1076,32 @@
       margin-bottom: 14px;
     }
 
+    .game-hud-actions {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .game-hud-btn {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.05);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.92rem;
+      min-height: 46px;
+      padding: 0 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+    }
+
+    .game-hud-btn:hover {
+      transform: translateY(-1px);
+      background: rgba(0,255,136,0.10);
+      border-color: rgba(0,255,136,0.24);
+    }
+
     .game-hud-card {
       border-radius: 18px;
       padding: 12px 14px;
@@ -1111,6 +1137,30 @@
         radial-gradient(circle at 20% 20%, rgba(0,255,136,0.08), transparent 20%),
         linear-gradient(180deg, #0d1512 0%, #07100d 56%, #06120a 100%);
       border: 1px solid rgba(255,255,255,0.08);
+      isolation: isolate;
+    }
+
+    .game-touch-hint {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      z-index: 3;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 42px;
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: rgba(3,12,8,0.76);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #eaf6ee;
+      font-size: 0.84rem;
+      font-weight: 700;
+      backdrop-filter: blur(8px);
+      pointer-events: none;
+      opacity: 0.92;
     }
 
     #sardogGameCanvas {
@@ -1271,9 +1321,24 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
+      .game-hud-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .game-hud-btn {
+        min-height: 48px;
+        padding: 0 12px;
+      }
+
       .game-canvas-wrap {
         aspect-ratio: auto;
-        min-height: 640px;
+        min-height: 300px;
+        max-height: 52vh;
+      }
+
+      .game-touch-hint {
+        display: flex;
       }
 
       .game-overlay {
@@ -1342,6 +1407,31 @@
       }
     }
 
+    .mobile-play-cta {
+      position: fixed;
+      right: 14px;
+      bottom: calc(14px + env(safe-area-inset-bottom));
+      z-index: 950;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 18px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #67ffc1 0%, #1fe490 100%);
+      color: #05100b;
+      font-weight: 900;
+      text-decoration: none;
+      box-shadow: 0 16px 34px rgba(0,255,136,0.24);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+
+    @media (max-width: 720px) {
+      .mobile-play-cta {
+        display: inline-flex;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -1384,6 +1474,7 @@
   </div>
 
   <div class="site-wrap">
+    <a class="mobile-play-cta" href="#raid-arena">Play Raid Arena</a>
     <header class="topbar">
       <div class="topbar-inner">
         <div class="brand">
@@ -1611,8 +1702,14 @@
                 <div class="game-hud-card"><span>State</span><strong id="gameHudState">Ready</strong></div>
               </div>
 
-              <div class="game-canvas-wrap">
+              <div class="game-hud-actions">
+                <button class="game-hud-btn" type="button" id="pauseGameBtn">Pause</button>
+                <button class="game-hud-btn" type="button" id="jumpHintBtn">Tap arena to jump</button>
+              </div>
+
+              <div class="game-canvas-wrap" id="gameTouchArea">
                 <canvas id="sardogGameCanvas" width="1280" height="720"></canvas>
+                <div class="game-touch-hint" id="gameTouchHint">Tap inside this arena to jump • Swipe down to slide</div>
 
                 <div class="game-overlay" id="gameStartOverlay">
                   <div class="game-overlay-card">
@@ -2061,6 +2158,10 @@
 
       const startOverlay = document.getElementById('gameStartOverlay');
       const gameOverOverlay = document.getElementById('gameOverOverlay');
+      const gameTouchArea = document.getElementById('gameTouchArea');
+      const pauseBtn = document.getElementById('pauseGameBtn');
+      const jumpHintBtn = document.getElementById('jumpHintBtn');
+      const touchHint = document.getElementById('gameTouchHint');
       const startBtn = document.getElementById('startGameBtn');
       const demoBtn = document.getElementById('demoGameBtn');
       const retryBtn = document.getElementById('retryGameBtn');
@@ -2082,6 +2183,22 @@
       const world = { width: canvas.width, height: canvas.height };
       const groundY = () => world.height - 128;
 
+      function resizeGameCanvas() {
+        const dpr = Math.min(window.devicePixelRatio || 1, isMobileDevice ? 1.35 : 2);
+        const rect = canvas.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
+        const nextWidth = Math.max(640, Math.round(rect.width * dpr));
+        const nextHeight = Math.max(360, Math.round(rect.height * dpr));
+        canvas.width = nextWidth;
+        canvas.height = nextHeight;
+        world.width = nextWidth;
+        world.height = nextHeight;
+        if (player) {
+          player.x = Math.min(player.x, world.width * 0.2);
+          player.y = groundY() - player.height;
+        }
+      }
+
       let state = 'ready';
       let obstacles = [];
       let player = null;
@@ -2095,6 +2212,8 @@
       let topCombo = 0;
       let lastTapTime = 0;
       let previewJumpTimeout = null;
+      let isPaused = false;
+      const isMobileDevice = window.matchMedia('(max-width: 720px), (pointer: coarse)').matches;
 
       bestEl.textContent = bestScore.toLocaleString();
       bestScoreEl.textContent = bestScore.toLocaleString();
@@ -2221,6 +2340,7 @@
       }
 
       function update(dt) {
+        if (state === 'paused') return;
         if (state !== 'playing' && state !== 'preview') return;
 
         elapsed += dt;
@@ -2403,6 +2523,18 @@
           ctx.textAlign = 'center';
           ctx.fillText('SARDOG Raid Arena waits below.', world.width / 2, groundY() - 180);
         }
+
+        if (state === 'paused') {
+          ctx.fillStyle = 'rgba(3,8,6,0.45)';
+          ctx.fillRect(0, 0, world.width, world.height);
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '700 52px Arial';
+          ctx.textAlign = 'center';
+          ctx.fillText('Paused', world.width / 2, world.height / 2 - 10);
+          ctx.font = '500 24px Arial';
+          ctx.fillStyle = 'rgba(255,255,255,0.82)';
+          ctx.fillText('Tap Pause again to continue', world.width / 2, world.height / 2 + 34);
+        }
       }
 
       let previousTs = performance.now();
@@ -2423,38 +2555,48 @@
         } else if (e.code === 'ArrowDown' || e.code === 'KeyS') {
           e.preventDefault();
           handleSlide();
+        } else if (e.code === 'KeyP' || e.code === 'Escape') {
+          e.preventDefault();
+          togglePause();
         }
       });
 
       let touchStartY = null;
-      canvas.addEventListener('touchstart', (e) => {
+      function onTouchStart(e) {
         if (!e.touches[0]) return;
+        if (e.target && e.target.closest('button')) return;
         touchStartY = e.touches[0].clientY;
         const now = performance.now();
-        if (now - lastTapTime < 280) {
-          handleJump();
-        } else {
-          handleJump();
-        }
+        handleJump();
         lastTapTime = now;
-      }, { passive: true });
+      }
 
-      canvas.addEventListener('touchmove', (e) => {
+      function onTouchMove(e) {
         if (touchStartY == null || !e.touches[0]) return;
         const deltaY = e.touches[0].clientY - touchStartY;
         if (deltaY > 34) {
           handleSlide();
           touchStartY = null;
         }
-      }, { passive: true });
+      }
 
-      canvas.addEventListener('touchend', () => { touchStartY = null; }, { passive: true });
+      function onTouchEnd() { touchStartY = null; }
 
+      gameTouchArea.addEventListener('touchstart', onTouchStart, { passive: true });
+      gameTouchArea.addEventListener('touchmove', onTouchMove, { passive: true });
+      gameTouchArea.addEventListener('touchend', onTouchEnd, { passive: true });
+
+      pauseBtn.addEventListener('click', togglePause);
+      jumpHintBtn.addEventListener('click', () => {
+        if (state === 'ready') startGame(false);
+      });
       startBtn.addEventListener('click', () => startGame(false));
       demoBtn.addEventListener('click', () => startGame(true));
       retryBtn.addEventListener('click', () => startGame(false));
       resetBtn.addEventListener('click', backToReady);
 
+      resizeGameCanvas();
+      window.addEventListener('resize', resizeGameCanvas);
       resetGame();
       requestAnimationFrame(loop);
     })();
