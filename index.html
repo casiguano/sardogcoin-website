@@ -1271,8 +1271,22 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
+      .game-canvas-wrap {
+        aspect-ratio: 4 / 5;
+        min-height: 520px;
+      }
+
+      .game-overlay {
+        align-items: flex-start;
+        padding: 12px;
+        overflow-y: auto;
+      }
+
       .game-overlay-card {
         padding: 18px;
+        max-height: calc(100% - 4px);
+        overflow-y: auto;
+        margin: auto 0;
       }
 
       .game-controls {
@@ -2687,5 +2701,7 @@
   </script>
 </body>
 </html>
+
+
 
 
