@@ -996,6 +996,290 @@
         padding: 16px 0 32px;
       }
     }
+  
+
+    /* SARDOG RAID ARENA */
+    .game-section {
+      margin-top: 18px;
+    }
+
+    .game-shell {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top right, rgba(0,255,136,0.12), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(0,153,255,0.10), transparent 30%),
+        linear-gradient(180deg, rgba(8,16,12,0.94), rgba(4,7,6,0.97));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px;
+      padding: 22px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.34);
+    }
+
+    .game-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .game-title-wrap h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.7rem, 4vw, 2.5rem);
+    }
+
+    .game-title-wrap p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 760px;
+      line-height: 1.7;
+    }
+
+    .game-status-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .game-status-pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #eaf6ee;
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .game-layout {
+      display: grid;
+      grid-template-columns: 1.35fr 0.9fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .game-stage-card,
+    .game-side-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      padding: 16px;
+      min-width: 0;
+    }
+
+    .game-hud {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .game-hud-card {
+      border-radius: 18px;
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      min-width: 0;
+    }
+
+    .game-hud-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.78rem;
+      margin-bottom: 7px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .game-hud-card strong {
+      display: block;
+      font-size: 1.18rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .game-canvas-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 24px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(0,255,136,0.08), transparent 20%),
+        linear-gradient(180deg, #0d1512 0%, #07100d 56%, #06120a 100%);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    #sardogGameCanvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      touch-action: manipulation;
+      background: transparent;
+    }
+
+    .game-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: linear-gradient(180deg, rgba(4,7,6,0.10), rgba(4,7,6,0.52));
+      pointer-events: none;
+    }
+
+    .game-overlay.hidden {
+      display: none;
+    }
+
+    .game-overlay-card {
+      width: min(420px, 100%);
+      border-radius: 24px;
+      padding: 24px;
+      text-align: center;
+      background: rgba(7,11,9,0.92);
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 24px 54px rgba(0,0,0,0.42);
+      pointer-events: auto;
+    }
+
+    .game-overlay-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.8rem;
+    }
+
+    .game-overlay-card p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .game-overlay-stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 16px 0 18px;
+    }
+
+    .game-overlay-stat {
+      border-radius: 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 12px;
+    }
+
+    .game-overlay-stat span {
+      display: block;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 7px;
+    }
+
+    .game-overlay-stat strong {
+      font-size: 1.12rem;
+    }
+
+    .game-controls {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .game-btn {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(135deg, #67ffc1 0%, #1fe490 100%);
+      color: #05100b;
+      font-weight: 800;
+      font-size: 1rem;
+      min-height: 52px;
+      border-radius: 18px;
+      cursor: pointer;
+      box-shadow: 0 16px 34px rgba(0,255,136,0.18);
+    }
+
+    .game-btn.secondary {
+      background: rgba(255,255,255,0.06);
+      color: #ffffff;
+      box-shadow: none;
+    }
+
+    .game-side-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.2rem;
+    }
+
+    .game-side-card p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .game-list {
+      margin: 0;
+      padding-left: 18px;
+      color: #d9e7df;
+      line-height: 1.7;
+    }
+
+    .game-list li + li {
+      margin-top: 6px;
+    }
+
+    .game-chip-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .game-chip {
+      padding: 9px 12px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .game-note {
+      margin-top: 12px;
+      font-size: 0.88rem;
+      color: #d6e3db;
+    }
+
+    @media (max-width: 980px) {
+      .game-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .game-shell {
+        padding: 14px;
+        border-radius: 24px;
+      }
+
+      .game-hud {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .game-overlay-card {
+        padding: 18px;
+      }
+
+      .game-controls {
+        grid-template-columns: 1fr;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -1235,6 +1519,86 @@
               <button class="btn secondary" type="button" onclick="downloadMeme()">Download Meme</button>
             </div>
             <canvas id="memeCanvas" width="500" height="500"></canvas>
+          </div>
+        </div>
+      </section>
+
+
+
+      <section class="section game-section" id="raid-arena">
+        <div class="game-shell">
+          <div class="game-header">
+            <div class="game-title-wrap">
+              <div class="hero-badge"><span class="dot"></span>Playable mini game • Web and mobile ready</div>
+              <h2>SARDOG Raid Arena</h2>
+              <p>SARDOG runs automatically through a crypto-cyber arena while you jump, double jump, slide, and survive waves of fake signals, drones, portals, and traps. Built to feel fast, clear, and addictive on both desktop and mobile.</p>
+            </div>
+            <div class="game-status-pills">
+              <div class="game-status-pill">Auto Runner</div>
+              <div class="game-status-pill">Tap to Jump</div>
+              <div class="game-status-pill">Swipe Down to Slide</div>
+            </div>
+          </div>
+
+          <div class="game-layout">
+            <div class="game-stage-card">
+              <div class="game-hud">
+                <div class="game-hud-card"><span>Score</span><strong id="gameHudScore">0</strong></div>
+                <div class="game-hud-card"><span>Best</span><strong id="gameHudBest">0</strong></div>
+                <div class="game-hud-card"><span>Time</span><strong id="gameHudTime">0.0s</strong></div>
+                <div class="game-hud-card"><span>State</span><strong id="gameHudState">Ready</strong></div>
+              </div>
+
+              <div class="game-canvas-wrap">
+                <canvas id="sardogGameCanvas" width="1280" height="720"></canvas>
+
+                <div class="game-overlay" id="gameStartOverlay">
+                  <div class="game-overlay-card">
+                    <h3>Enter the Arena</h3>
+                    <p>Tap or press Space to jump. Double tap for a double jump. Swipe down or press Arrow Down to slide. Survive as long as you can.</p>
+                    <div class="game-controls">
+                      <button class="game-btn" type="button" id="startGameBtn">Start Run</button>
+                      <button class="game-btn secondary" type="button" id="demoGameBtn">Preview Controls</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="game-overlay hidden" id="gameOverOverlay">
+                  <div class="game-overlay-card">
+                    <h3 id="gameOverTitle">Exit Liquidity got you.</h3>
+                    <p>Run it back. The pack is watching.</p>
+                    <div class="game-overlay-stats">
+                      <div class="game-overlay-stat"><span>Final Score</span><strong id="finalScoreValue">0</strong></div>
+                      <div class="game-overlay-stat"><span>Best Score</span><strong id="bestScoreValue">0</strong></div>
+                      <div class="game-overlay-stat"><span>Time Survived</span><strong id="timeSurvivedValue">0.0s</strong></div>
+                      <div class="game-overlay-stat"><span>Top Combo</span><strong id="comboValue">0</strong></div>
+                    </div>
+                    <div class="game-controls">
+                      <button class="game-btn" type="button" id="retryGameBtn">Retry</button>
+                      <button class="game-btn secondary" type="button" id="resetGameBtn">Back to Ready</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="game-side-card">
+              <h3>How it works</h3>
+              <p>This first version is already playable inside the website and responsive for desktop and mobile. It does not break the rest of the page and can be expanded later with more enemies, power-ups, sound, and wallet-based features.</p>
+              <ol class="game-list">
+                <li>SARDOG runs automatically.</li>
+                <li>Jump over ground traps and mines.</li>
+                <li>Slide under flying drones and fake signals.</li>
+                <li>Survive longer as the speed keeps increasing.</li>
+              </ol>
+              <div class="game-chip-grid">
+                <div class="game-chip">Buzzword Drone</div>
+                <div class="game-chip">Paper Hands Trap</div>
+                <div class="game-chip">Rug Pull Portal</div>
+                <div class="game-chip">NGMI Mine</div>
+              </div>
+              <p class="game-note">Desktop: <strong>Space</strong> jump, <strong>Space twice</strong> double jump, <strong>Arrow Down</strong> slide. Mobile: <strong>tap</strong> jump, <strong>double tap</strong> double jump, <strong>swipe down</strong> slide.</p>
+            </div>
           </div>
         </div>
       </section>
@@ -1625,6 +1989,415 @@
     setInterval(loadSardogStats, 60000);
   </script>
 
+  
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('sardogGameCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      const startOverlay = document.getElementById('gameStartOverlay');
+      const gameOverOverlay = document.getElementById('gameOverOverlay');
+      const startBtn = document.getElementById('startGameBtn');
+      const demoBtn = document.getElementById('demoGameBtn');
+      const retryBtn = document.getElementById('retryGameBtn');
+      const resetBtn = document.getElementById('resetGameBtn');
+
+      const scoreEl = document.getElementById('gameHudScore');
+      const bestEl = document.getElementById('gameHudBest');
+      const timeEl = document.getElementById('gameHudTime');
+      const stateEl = document.getElementById('gameHudState');
+      const finalScoreEl = document.getElementById('finalScoreValue');
+      const bestScoreEl = document.getElementById('bestScoreValue');
+      const timeSurvivedEl = document.getElementById('timeSurvivedValue');
+      const comboEl = document.getElementById('comboValue');
+      const gameOverTitle = document.getElementById('gameOverTitle');
+
+      const sardogImage = new Image();
+      sardogImage.src = 'SARDOG.jpg';
+
+      const world = { width: canvas.width, height: canvas.height };
+      const groundY = () => world.height - 128;
+
+      let state = 'ready';
+      let obstacles = [];
+      let player = null;
+      let gameSpeed = 520;
+      let spawnTimer = 0;
+      let spawnInterval = 1.1;
+      let elapsed = 0;
+      let score = 0;
+      let bestScore = Number(localStorage.getItem('sardog_best_score') || 0);
+      let combo = 0;
+      let topCombo = 0;
+      let lastTapTime = 0;
+      let previewJumpTimeout = null;
+
+      bestEl.textContent = bestScore.toLocaleString();
+      bestScoreEl.textContent = bestScore.toLocaleString();
+
+      function resetPlayer() {
+        player = {
+          x: 180,
+          y: groundY() - 96,
+          width: 110,
+          height: 96,
+          velocityY: 0,
+          gravity: 2500,
+          jumpForce: 980,
+          jumpsUsed: 0,
+          maxJumps: 2,
+          isSliding: false,
+          slideTimer: 0,
+          slideHeight: 58,
+          normalHeight: 96,
+          runBob: 0,
+          invulnerable: 0
+        };
+      }
+
+      function resetGame() {
+        clearTimeout(previewJumpTimeout);
+        obstacles = [];
+        gameSpeed = 520;
+        spawnTimer = 0;
+        spawnInterval = 1.1;
+        elapsed = 0;
+        score = 0;
+        combo = 0;
+        topCombo = 0;
+        resetPlayer();
+        updateHud();
+        drawScene(0);
+      }
+
+      function startGame(preview = false) {
+        resetGame();
+        state = preview ? 'preview' : 'playing';
+        stateEl.textContent = preview ? 'Preview' : 'Running';
+        startOverlay.classList.add('hidden');
+        gameOverOverlay.classList.add('hidden');
+
+        if (preview) {
+          previewJumpTimeout = setTimeout(() => handleJump(), 900);
+        }
+      }
+
+      function backToReady() {
+        state = 'ready';
+        stateEl.textContent = 'Ready';
+        startOverlay.classList.remove('hidden');
+        gameOverOverlay.classList.add('hidden');
+        resetGame();
+      }
+
+      function gameOver(message) {
+        state = 'gameover';
+        stateEl.textContent = 'Down';
+        if (score > bestScore) {
+          bestScore = score;
+          localStorage.setItem('sardog_best_score', String(bestScore));
+        }
+        bestEl.textContent = bestScore.toLocaleString();
+        bestScoreEl.textContent = bestScore.toLocaleString();
+        finalScoreEl.textContent = score.toLocaleString();
+        timeSurvivedEl.textContent = elapsed.toFixed(1) + 's';
+        comboEl.textContent = topCombo.toLocaleString();
+        gameOverTitle.textContent = message || 'Exit Liquidity got you.';
+        gameOverOverlay.classList.remove('hidden');
+      }
+
+      function updateHud() {
+        scoreEl.textContent = score.toLocaleString();
+        bestEl.textContent = bestScore.toLocaleString();
+        timeEl.textContent = elapsed.toFixed(1) + 's';
+      }
+
+      function handleJump() {
+        if (!player || (state !== 'playing' && state !== 'preview')) return;
+        if (player.jumpsUsed >= player.maxJumps) return;
+        player.velocityY = -player.jumpForce;
+        player.jumpsUsed += 1;
+        combo += 1;
+        topCombo = Math.max(topCombo, combo);
+      }
+
+      function handleSlide() {
+        if (!player || (state !== 'playing' && state !== 'preview')) return;
+        if (player.y < groundY() - player.normalHeight - 4) return;
+        player.isSliding = true;
+        player.slideTimer = 0.48;
+      }
+
+      function createObstacle() {
+        const types = [
+          { name: 'drone', width: 118, height: 70, y: groundY() - 210, color: '#4fffc8' },
+          { name: 'trap', width: 130, height: 52, y: groundY() - 52, color: '#ffd86f' },
+          { name: 'portal', width: 92, height: 140, y: groundY() - 152, color: '#8c7bff' },
+          { name: 'mine', width: 92, height: 52, y: groundY() - 52, color: '#ff9f52' }
+        ];
+        const type = types[Math.floor(Math.random() * types.length)];
+        obstacles.push({
+          ...type,
+          x: world.width + 80,
+          pulse: Math.random() * Math.PI * 2
+        });
+      }
+
+      function playerRect() {
+        return {
+          x: player.x + 18,
+          y: player.y + 8,
+          width: player.width - 30,
+          height: player.height - 10
+        };
+      }
+
+      function intersects(a, b) {
+        return a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y;
+      }
+
+      function update(dt) {
+        if (state !== 'playing' && state !== 'preview') return;
+
+        elapsed += dt;
+        spawnTimer += dt;
+        gameSpeed += dt * 14;
+        spawnInterval = Math.max(0.55, 1.08 - elapsed * 0.018);
+
+        player.velocityY += player.gravity * dt;
+        player.y += player.velocityY * dt;
+
+        if (player.y >= groundY() - player.normalHeight) {
+          player.y = groundY() - player.normalHeight;
+          player.velocityY = 0;
+          player.jumpsUsed = 0;
+        }
+
+        if (player.isSliding) {
+          player.slideTimer -= dt;
+          player.height = player.slideHeight;
+          player.y = groundY() - player.slideHeight;
+          if (player.slideTimer <= 0) {
+            player.isSliding = false;
+            player.height = player.normalHeight;
+            player.y = groundY() - player.normalHeight;
+          }
+        } else {
+          player.height = player.normalHeight;
+        }
+
+        if (spawnTimer >= spawnInterval) {
+          spawnTimer = 0;
+          createObstacle();
+        }
+
+        for (let i = obstacles.length - 1; i >= 0; i--) {
+          const ob = obstacles[i];
+          ob.x -= gameSpeed * dt;
+          ob.pulse += dt * 3;
+          if (ob.x + ob.width < -20) {
+            obstacles.splice(i, 1);
+            score += 50;
+            combo += 1;
+            topCombo = Math.max(topCombo, combo);
+          }
+        }
+
+        const pRect = playerRect();
+        for (const ob of obstacles) {
+          const rect = { x: ob.x + 8, y: ob.y + 6, width: ob.width - 16, height: ob.height - 10 };
+          if (intersects(pRect, rect)) {
+            gameOver(
+              ob.name === 'portal' ? 'The portal rugged your run.' :
+              ob.name === 'drone' ? 'Buzzword Drone clipped you.' :
+              ob.name === 'mine' ? 'NGMI Mine punished greed.' :
+              'Paper Hands Trap caught you.'
+            );
+            return;
+          }
+        }
+
+        score += Math.floor(dt * 100 + combo * 0.02);
+        updateHud();
+      }
+
+      function drawBackgroundGrid() {
+        const grd = ctx.createLinearGradient(0, 0, 0, world.height);
+        grd.addColorStop(0, '#0d1814');
+        grd.addColorStop(0.55, '#08120f');
+        grd.addColorStop(1, '#06100a');
+        ctx.fillStyle = grd;
+        ctx.fillRect(0, 0, world.width, world.height);
+
+        ctx.strokeStyle = 'rgba(0,255,136,0.08)';
+        ctx.lineWidth = 1;
+        for (let x = -40; x < world.width + 80; x += 70) {
+          ctx.beginPath();
+          ctx.moveTo(x, groundY() + 90);
+          ctx.lineTo(world.width / 2, groundY() - 10);
+          ctx.stroke();
+        }
+        for (let y = groundY() - 4; y < world.height; y += 24) {
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(world.width, y);
+          ctx.stroke();
+        }
+
+        ctx.fillStyle = 'rgba(0,255,136,0.11)';
+        ctx.fillRect(0, groundY(), world.width, 7);
+      }
+
+      function drawPlayer() {
+        const shadowY = groundY() + 12;
+        ctx.fillStyle = 'rgba(0,0,0,0.35)';
+        ctx.beginPath();
+        ctx.ellipse(player.x + player.width / 2, shadowY, 52, 15, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (sardogImage.complete) {
+          ctx.drawImage(sardogImage, player.x, player.y, player.width, player.height);
+        } else {
+          ctx.fillStyle = '#65ffc0';
+          ctx.fillRect(player.x, player.y, player.width, player.height);
+        }
+      }
+
+      function drawObstacle(ob) {
+        ctx.save();
+        if (ob.name === 'drone') {
+          ctx.fillStyle = 'rgba(79,255,200,0.18)';
+          ctx.beginPath();
+          ctx.arc(ob.x + ob.width / 2, ob.y + ob.height / 2, 54 + Math.sin(ob.pulse) * 4, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#103029';
+          ctx.fillRect(ob.x + 24, ob.y + 16, ob.width - 48, ob.height - 22);
+          ctx.strokeStyle = '#63ffd0';
+          ctx.lineWidth = 4;
+          ctx.strokeRect(ob.x + 24, ob.y + 16, ob.width - 48, ob.height - 22);
+          ctx.beginPath();
+          ctx.moveTo(ob.x + 6, ob.y + 18);
+          ctx.lineTo(ob.x + 24, ob.y + 34);
+          ctx.moveTo(ob.x + ob.width - 6, ob.y + 18);
+          ctx.lineTo(ob.x + ob.width - 24, ob.y + 34);
+          ctx.stroke();
+        } else if (ob.name === 'portal') {
+          const g = ctx.createRadialGradient(ob.x + ob.width/2, ob.y + ob.height/2, 10, ob.x + ob.width/2, ob.y + ob.height/2, ob.width/2);
+          g.addColorStop(0, 'rgba(185,144,255,0.95)');
+          g.addColorStop(0.5, 'rgba(91,76,255,0.75)');
+          g.addColorStop(1, 'rgba(91,76,255,0.12)');
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.ellipse(ob.x + ob.width/2, ob.y + ob.height/2, ob.width/2, ob.height/2, 0, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (ob.name === 'trap') {
+          ctx.fillStyle = '#2a1806';
+          ctx.fillRect(ob.x, ob.y + 12, ob.width, ob.height - 12);
+          for (let i = 0; i < 6; i++) {
+            const px = ob.x + i * (ob.width / 6);
+            ctx.fillStyle = '#ffd56a';
+            ctx.beginPath();
+            ctx.moveTo(px + 8, ob.y + 12);
+            ctx.lineTo(px + 18, ob.y - 8);
+            ctx.lineTo(px + 28, ob.y + 12);
+            ctx.closePath();
+            ctx.fill();
+          }
+        } else {
+          ctx.fillStyle = '#281107';
+          ctx.beginPath();
+          ctx.arc(ob.x + ob.width / 2, ob.y + ob.height / 2, 34, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.strokeStyle = '#ffa25a';
+          ctx.lineWidth = 4;
+          ctx.stroke();
+          for (let i = 0; i < 8; i++) {
+            const angle = (Math.PI * 2 / 8) * i;
+            const x1 = ob.x + ob.width/2 + Math.cos(angle) * 28;
+            const y1 = ob.y + ob.height/2 + Math.sin(angle) * 28;
+            const x2 = ob.x + ob.width/2 + Math.cos(angle) * 46;
+            const y2 = ob.y + ob.height/2 + Math.sin(angle) * 46;
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+          }
+        }
+        ctx.restore();
+      }
+
+      function drawScene() {
+        ctx.clearRect(0, 0, world.width, world.height);
+        drawBackgroundGrid();
+
+        for (const ob of obstacles) drawObstacle(ob);
+        drawPlayer();
+
+        if (state === 'ready') {
+          ctx.fillStyle = 'rgba(255,255,255,0.08)';
+          ctx.font = '700 34px Arial';
+          ctx.textAlign = 'center';
+          ctx.fillText('SARDOG Raid Arena waits below.', world.width / 2, groundY() - 180);
+        }
+      }
+
+      let previousTs = performance.now();
+      function loop(ts) {
+        const dt = Math.min(0.033, (ts - previousTs) / 1000);
+        previousTs = ts;
+        update(dt);
+        drawScene();
+        requestAnimationFrame(loop);
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (e.code === 'Space') {
+          e.preventDefault();
+          const now = performance.now();
+          handleJump();
+          lastTapTime = now;
+        } else if (e.code === 'ArrowDown' || e.code === 'KeyS') {
+          e.preventDefault();
+          handleSlide();
+        }
+      });
+
+      let touchStartY = null;
+      canvas.addEventListener('touchstart', (e) => {
+        if (!e.touches[0]) return;
+        touchStartY = e.touches[0].clientY;
+        const now = performance.now();
+        if (now - lastTapTime < 280) {
+          handleJump();
+        } else {
+          handleJump();
+        }
+        lastTapTime = now;
+      }, { passive: true });
+
+      canvas.addEventListener('touchmove', (e) => {
+        if (touchStartY == null || !e.touches[0]) return;
+        const deltaY = e.touches[0].clientY - touchStartY;
+        if (deltaY > 34) {
+          handleSlide();
+          touchStartY = null;
+        }
+      }, { passive: true });
+
+      canvas.addEventListener('touchend', () => { touchStartY = null; }, { passive: true });
+
+      startBtn.addEventListener('click', () => startGame(false));
+      demoBtn.addEventListener('click', () => startGame(true));
+      retryBtn.addEventListener('click', () => startGame(false));
+      resetBtn.addEventListener('click', backToReady);
+
+      resetGame();
+      requestAnimationFrame(loop);
+    })();
+  </script>
+
   <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
   <script>
     const RPC_ENDPOINTS = [
@@ -1914,4 +2687,5 @@
   </script>
 </body>
 </html>
+
 
